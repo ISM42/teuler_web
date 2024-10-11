@@ -9,7 +9,7 @@
                 <p class="text-lg text-gray-600 mb-8">
                     La plataforma interactiva para aprender matemáticas de forma fácil, rápida y divertida.
                 </p>
-                <a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Comenzar ahora</a>
+                <a href="/registro" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Comenzar ahora</a>
             </div>
         </section>
 

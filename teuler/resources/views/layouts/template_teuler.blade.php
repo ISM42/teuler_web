@@ -20,7 +20,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 w-full shadow dark:bg-gray-900 mt-auto">
+    <footer class="bg-gray-800 w-full shadow dark:bg-gray-900 mt-auto mb-auto">
         @include('partials.footer')
     </footer>
 
