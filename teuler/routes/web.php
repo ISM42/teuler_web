@@ -31,12 +31,17 @@ Route::get('/algebra', function () {
 });
 
 Route::get('/expresiones', function () {
-    return view('cursos.algebra.index_expresiones');
+    return view('cursos.algebra.expresiones.index_expresiones');
 });
 
 Route::get('/despejes', function () {
-    return view('cursos.algebra.index_despejes');
+    return view('cursos.algebra.despejes.index_despejes');
 });
+
+Route::get('/despeje_incognitas', function () {
+    return view('cursos.algebra.despejes.ejercicios_despejes_incognitas');
+});
+
 
 //FIN RUTAS TEMPORALES
 

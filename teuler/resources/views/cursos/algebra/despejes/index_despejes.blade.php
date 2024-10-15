@@ -33,7 +33,7 @@
             <h2 class="text-2xl font-semibold text-blue-700 mb-4">2. Despeje de Incógnitas</h2>
             <p class="text-gray-600">Dominarás la técnica de despejar incógnitas. Verás cómo manipular ecuaciones para aislar la variable de interés utilizando operaciones algebraicas básicas, como sumas, restas, multiplicaciones y divisiones.</p>
             <br>
-            <a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Ir a los ejercicios</a>
+            <a href="/despeje_incognitas" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Ir a los ejercicios</a>
         </div>
 
         <!-- Sección 3 -->
