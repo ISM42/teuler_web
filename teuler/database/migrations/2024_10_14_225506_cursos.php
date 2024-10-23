@@ -19,14 +19,30 @@ return new class extends Migration
         });
 
         DB::table('cursos')->insert([
+        
             [
                 'nombre' => 'Álgebra',
+                'id' => 1,
+            ],
+            [
                 'nombre' => 'Geometría Euclidiana',
+                'id' => 2,
+            ],
+            [
                 'nombre' => 'Trigonometría',
+                'id' => 3,
+            ],
+            [
                 'nombre' => 'Geometría Analítica',
+                'id' => 4,
+            ],
+            [
                 'nombre' => 'Cálculo Diferencial',
+                'id' => 5,
+            ],
+            [
                 'nombre' => 'Cálculo Integral',
-                
+                'id' => 6,
             ],
         ]);
     }

@@ -18,9 +18,14 @@ return new class extends Migration
         });
 
         DB::table('roles')->insert([
+          
             [
                 'nombre' => 'Estudiante',
+                'id' => 1,
+            ],
+            [
                 'nombre' => 'Profesor',
+                'id' => 2,
             ],
         ]);
     }
