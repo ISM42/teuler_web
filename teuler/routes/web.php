@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 //RUTAS TEMPORALES
 Route::get('/', function () {
-    return view('welcome');
+    return view('index_teuler');
 });
 
 Route::get('/home', function () {
