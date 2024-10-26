@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\LoginController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,14 +13,26 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-//RUTAS TEMPORALES
-Route::get('/', function () {
-    return view('index_teuler');
-});
+
+Route::get('/',[LoginController::class, 'index']); //login
+
+//LOGIN
+Route::post('/login',[LoginController::class, 'login']);
+//fin login
 
 Route::get('/home', function () {
     return view('home_teuler');
 });
+
+//Store para registro usuario
+Route::post('/registro', [LoginController::class, 'create']);
+
+//Ruta para logout
+Route::post('/logout', [LoginController::class, 'logout']);
+
+
+
+//RUTAS TEMPORALES
 
 Route::get('/cursos', function () {
     return view('cursos.index_cursos');

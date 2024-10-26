@@ -19,9 +19,34 @@ return new class extends Migration
             $table->string('apellido_p', 60);
             $table->string('apellido_m', 60);
             $table->string('email', 80);
-            $table->string('password', 40);
+            $table->binary('password');
+            $table->boolean('estatus')->default(1);
             $table->timestamps();
         });
+
+DB::table('usuarios')->insert([
+    
+   [ 'id_rol' => 1,
+     'id_area' =>6,
+      'nombre' => 'Joaquín',
+       'apellido_p' => 'Rodríguez',
+        'apellido_m' => 'Camacho',
+         'email' =>'joaco.mc@example.com',
+          'password' => bcrypt('12345678'),
+],
+
+[ 'id_rol' => 2,
+'id_area' =>6,
+ 'nombre' => 'Lorena',
+  'apellido_p' => 'Jiménez',
+   'apellido_m' => 'Saucedo',
+    'email' =>'saucedo.jl@example.com',
+     'password' => bcrypt('12345678'),
+]
+
+]);
+
+
     }
 
     /**
