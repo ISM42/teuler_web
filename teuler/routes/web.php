@@ -51,9 +51,12 @@ Route::get('/despejes', function () {
 });
 
 Route::get('/despeje_incognitas', function () {
-    return view('cursos.algebra.despejes.ejercicios_despejes_incognitas');
+    return view('cursos.algebra.despejes.tema2_despeje_incognitas');
 });
 
+Route::get('/despeje_incognitas_ejercicios', function () {
+    return view('cursos.algebra.despejes.ejercicios_despejes_incognitas');
+});
 
 //FIN RUTAS TEMPORALES
 

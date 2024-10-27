@@ -1,6 +1,4 @@
-
-
-<nav class="bg-gray-800 border-gray-200 dark:bg-blue-900">
+ <nav class="bg-gray-800 border-gray-200 dark:bg-blue-900">
   <div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
   <a href="/home" class="flex items-center space-x-3 rtl:space-x-reverse">
   <img src="{{ asset('images/logo_teuler.png') }}" alt="" width="45" height="45">
