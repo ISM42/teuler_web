@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('email', 80);
             $table->binary('password');
             $table->boolean('estatus')->default(1);
+            $table->string('avatar', 255)->nullable();
             $table->timestamps();
         });
 

@@ -21,10 +21,23 @@ class Usuarios extends Authenticatable
         'apellido_m',
         'email', 
         'password',
+        'estatus',
+        'avatar',
     ];
 
     protected $hiddens = [
         'password',
         'remember_token',
     ];
+
+    public function rol()
+{
+    return $this->belongsTo(Rol::class, 'id_rol');
+}
+
+public function area()
+{
+    return $this->belongsTo(Area::class, 'id_area');
+}
+
 }

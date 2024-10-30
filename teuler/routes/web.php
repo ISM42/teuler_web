@@ -30,6 +30,30 @@ Route::post('/registro', [LoginController::class, 'create']);
 //Ruta para logout
 Route::post('/logout', [LoginController::class, 'logout']);
 
+//RUTAS PARA EDITAR INFORMACIÓN DE USUARIO
+/* Route::get('/usuarios/{id}', [LoginController::class, 'show'])->name('usuarios.perfil');
+Route::put('/usuarios/{id}', [LoginController::class, 'update'])->name('usuarios.update'); */
+
+
+
+//RUTAS CON AUTENTICACIÓN DE MIDDLEWARE
+//ESTE MIDDLEWARE SIRVE PARA ENCRIPTAR LAS SESIONES ACTIVAS, ASÍ COMO ENCRIPTAR LAS COOKIES
+Route::group(['middleware' => 'auth'], function () {
+    //PERFIL PERSONAL
+    //Muestra la información del perfil en sesion
+    Route::get('/perfil', [LoginController::class, 'show']);
+
+    Route::put('/perfil/{id}', [LoginController::class, 'update'])->name('usuarios.update');
+
+    Route::match(['put', 'post'], '/perfil/cambiar-password', [LoginController::class, 'updatePassword'])->name('usuario.updatePassword');
+
+    Route::post('/perfil/upload-avatar', [LoginController::class, 'uploadAvatar'])->name('usuarios.upload-avatar');
+Route::post('/perfil/delete-avatar', [LoginController::class, 'deleteAvatar'])->name('usuarios.delete-avatar');
+
+
+
+});
+
 
 
 //RUTAS TEMPORALES
@@ -57,6 +81,10 @@ Route::get('/despeje_incognitas', function () {
 Route::get('/despeje_incognitas_ejercicios', function () {
     return view('cursos.algebra.despejes.ejercicios_despejes_incognitas');
 });
+
+/* Route::get('/perfil', function () {
+    return view('perfil_usuario');
+}); */
 
 //FIN RUTAS TEMPORALES
 
