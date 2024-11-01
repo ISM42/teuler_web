@@ -48,9 +48,13 @@ Route::group(['middleware' => 'auth'], function () {
     Route::match(['put', 'post'], '/perfil/cambiar-password', [LoginController::class, 'updatePassword'])->name('usuario.updatePassword');
 
     Route::post('/perfil/upload-avatar', [LoginController::class, 'uploadAvatar'])->name('usuarios.upload-avatar');
-Route::post('/perfil/delete-avatar', [LoginController::class, 'deleteAvatar'])->name('usuarios.delete-avatar');
 
+    Route::post('/perfil/delete-avatar', [LoginController::class, 'deleteAvatar'])->name('usuarios.delete-avatar');
 
+    Route::post('/perfil/eliminar', [LoginController::class, 'destroy'])->name('usuario.eliminar.cuenta');
+
+    //Cierra la sesion, invalida y renueva token 
+    Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
 });
 

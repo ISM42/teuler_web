@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
+use Carbon\Carbon;
 use App\Models\Usuarios;
 use App\Models\Rol;
 use App\Models\Area;
@@ -30,6 +31,23 @@ class LoginController extends Controller
             return redirect('/home')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre_usuario);
         } else {
             return back()->with('Error_login', "Usuario o contraseña erróneos");
+        }
+    }
+
+
+    public function logout(Request $request)
+    {
+        if (Auth::check()) {
+            Auth::logout();
+            //Invalida sesión
+            $request->session()->invalidate();
+    
+            //Gerean un nuevo token para la proxima sesión
+            $request->session()->regenerateToken();
+    
+            return redirect('/')->with('Confirmacion_logout', 'Haz cerrado sesión correctamente.');
+        } else {
+            return redirect('/');
         }
     }
 
@@ -62,7 +80,7 @@ class LoginController extends Controller
         return redirect('/home')->with('Confirmacion_registro', "Registro exitoso, bienvenido " . $usuario->nombre);
     }
 
-    
+// Función para jalar los roles y áreas de los modelos.   
 public function index(){
     $roles = Rol::all();
   //  dd($roles);
@@ -72,21 +90,6 @@ public function index(){
     return view('index_teuler', compact('roles', 'areas'));
 }
 
-public function logout(Request $request)
-{
-    if (Auth::check()) {
-        Auth::logout();
-        //Invalida sesión
-        $request->session()->invalidate();
-
-        //Gerean un nuevo token para la proxima sesión
-        $request->session()->regenerateToken();
-
-        return redirect('/')->with('Confirmacion_logout', 'Haz cerrado sesión correctamente.');
-    } else {
-        return redirect('/');
-    }
-}
 
 
 public function show()
@@ -117,7 +120,7 @@ public function update(Request $request)
         'apellido_m' => 'required|string|max:255',
         'email' => 'required|email|unique:usuarios,email,' . $usuario->id,
         'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'id_rol' => 'required| integer',
+       // 'id_rol' => 'required| integer',
     ]);
 
     $usuario->id_area = $request->id_area;
@@ -125,7 +128,7 @@ public function update(Request $request)
     $usuario->apellido_p = $request->apellido_p;
     $usuario->apellido_m = $request->apellido_m;
     $usuario->email = $request->email;
-    $usuario->id_rol = $request->id_rol;
+   // $usuario->id_rol = $request->id_rol;
 
    /*  if ($request->hasFile('avatar')) {
         $avatar = $request->file('avatar');
@@ -194,5 +197,23 @@ public function deleteAvatar()
     return redirect()->back()->with('success', 'Avatar eliminado correctamente.');
 }
 
+
+public function destroy(Request $request)
+    {
+        if (Auth::check()) {
+            $usuarioId = Auth::id();
+            $usuario = Usuarios::find($usuarioId);
+            $usuario->estatus = 0;
+            $usuario->updated_at = Carbon::now()->toDateString();
+
+            //Invalida sesión
+            $request->session()->invalidate();
+            $usuario->save();
+
+            return redirect('/')->with('Confirmacion_eliminacion', 'La cuenta fue eliminada correctamente');
+        } else {
+            return redirect('/');
+        }
+    }
 
 }
