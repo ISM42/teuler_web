@@ -42,7 +42,7 @@ return new class extends Migration
             [
                 'nombre' => 'Despejes y Ecuaciones Lineales',
                 'id_curso' => 1,
-                'ruta_preguntas' => '',
+                'ruta_preguntas' => 'ejercicios_despejes',
                 'num_min_preguntas'=>20,
             ],
             [
