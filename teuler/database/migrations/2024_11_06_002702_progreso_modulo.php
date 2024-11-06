@@ -11,14 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('respuestas', function (Blueprint $table) {
+        Schema::create('progreso_modulo', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_usuario')->constrained('usuarios');
-            $table->foreignId('id_reactivo')->constrained('modulos_tematicos');  //revisar
+            $table->foreignId('id_alumno')->constrained('usuarios');
             $table->foreignId('id_modulo')->constrained('modulos_tematicos');
-            $table->string('respuesta_alumno', 1);
-            $table->boolean('es_correcto');
+            $table->integer('intentos');
+            $table->decimal('progreso', 5, 2);
+            $table->time('tiempo_empleado');
             $table->timestamps();
+
+            //restricción para que el alumno sólo pueda registrarse una sola vez al mismo módulo.
+            $table->unique(['id_alumno', 'id_modulo']);
+
         });
     }
 
