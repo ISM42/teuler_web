@@ -1,5 +1,5 @@
 @extends('layouts.template_teuler')
-@section('titulo','Home')
+@section('titulo','Ejercicios de despejes')
 @section('contenido')
 
 <main class="flex-grow mb-10 pb-10 pt-10">
@@ -13,7 +13,15 @@
             </div>
         </section>
 
-       
+<div class="container">
+    <h1>Prueba ecuaciones</h1>
+    <p>Esta es una ecuación en línea: \( E = mc^2 \).</p>
+
+<p>Y esta es una ecuación en bloque:</p>
+<p>$$ f(x) = ax^2 + bx + c $$</p>
+
+</div>
+
     </main>
     
 @endsection
