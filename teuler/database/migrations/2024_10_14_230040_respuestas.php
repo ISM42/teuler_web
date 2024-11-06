@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('respuestas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_usuario')->constrained('usuarios');
-            $table->foreignId('id_reactivo')->constrained('modulos_tematicos');  //revisar
+            $table->string('id_reactivo', 24);  //el ID del reactivo se jala desde MongoDB
             $table->foreignId('id_modulo')->constrained('modulos_tematicos');
             $table->string('respuesta_alumno', 1);
             $table->boolean('es_correcto');
