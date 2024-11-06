@@ -67,4 +67,9 @@
 </div>
 <!-- FIN DIV EXPLICACIÓN -->
 
+<div class="container flex justify-end pr-5 pb-5">
+
+<a href="/despeje_incognitas_ejercicios" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Empezar bloque de ejercicios</a>
+
+</div>
 @endsection
