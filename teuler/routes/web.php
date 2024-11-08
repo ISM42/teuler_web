@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ModuloTematicoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -89,6 +90,9 @@ Route::get('/despeje_incognitas_ejercicios', function () {
 /* Route::get('/perfil', function () {
     return view('perfil_usuario');
 }); */
+//Ruta para obtener 10 preguntas aleatorias desde mongo
+Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias']);
+
 
 //FIN RUTAS TEMPORALES
 
