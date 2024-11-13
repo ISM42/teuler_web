@@ -93,6 +93,9 @@ Route::get('/despeje_incognitas_ejercicios', function () {
 //Ruta para obtener 10 preguntas aleatorias desde mongo
 Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias']);
 
+//ruta para guardar respuestas del usuario
+Route::post('/guardar_respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
+
 
 //FIN RUTAS TEMPORALES
 
