@@ -69,7 +69,7 @@
 
 <div class="container flex justify-end pr-5 pb-5">
 
-<a href="/modulo/4/preguntas" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Empezar bloque de ejercicios</a>
+<a href="/modulo/1/preguntas" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Empezar bloque de ejercicios</a>
 
 </div>
 @endsection

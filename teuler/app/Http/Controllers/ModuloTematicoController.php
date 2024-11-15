@@ -18,7 +18,7 @@ class ModuloTematicoController extends Controller
     {
         // Encuentra el módulo temático por su ID en MySQL
         $modulo = ModuloTematico::find($id);
-
+//dd($modulo);
         if (!$modulo || !$modulo->ruta_preguntas) {
             // Retorna un error si el módulo no se encuentra o no tiene una ruta definida
             return response()->json(['error' => 'Módulo temático no encontrado o sin ruta de preguntas'], 404);
