@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('id_usuario')->constrained('usuarios');
             $table->string('id_reactivo', 24);  //el ID del reactivo se jala desde MongoDB
             $table->foreignId('id_modulo')->constrained('modulos_tematicos');
-            $table->string('respuesta_alumno', 1);
+            $table->string('respuesta_alumno', 50);
             $table->boolean('es_correcto');
             $table->timestamps();
         });

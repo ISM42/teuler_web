@@ -72,7 +72,6 @@
 
     function submitRespuesta(preguntaId, respuesta, index) {
     console.log(`Enviando respuesta para la pregunta ${preguntaId}:`, respuesta);
-    const moduloId = {{ $modulo_id }};
 
     fetch("{{ route('guardar_respuesta') }}", {
         method: "POST",
@@ -82,8 +81,8 @@
         },
         body: JSON.stringify({
             pregunta_id: preguntaId,
-            modulo_id: moduloId,
-            respuesta: String(respuesta) // Convertir la respuesta a string
+            modulo_id: {{ $modulo_id }},
+            respuesta: respuesta
         })
     })
     .then(response => response.json())
@@ -91,11 +90,28 @@
         console.log("Respuesta del servidor:", data);
 
         if (data.success) {
-            progreso += 1;
-            actualizarBarraProgreso(progreso);
+            // Retroalimentación visual
+            const currentPregunta = document.getElementById(`pregunta-${index}`);
+            if (data.es_correcto) {
+                currentPregunta.style.border = "2px solid green";
+            } else {
+                currentPregunta.style.border = "2px solid red";
+            }
 
+            // Actualizar barra de progreso
+            progreso += 1;
+            const progressBar = document.getElementById("progress-bar");
+            if (progressBar) {
+                const porcentaje = (progreso / totalPreguntas) * 100;
+                progressBar.style.width = `${porcentaje}%`;
+                progressBar.textContent = `${Math.round(porcentaje)}%`; // Opcional: mostrar porcentaje en la barra
+            } else {
+                console.error("Elemento 'progress-bar' no encontrado.");
+            }
+
+            // Avanzar a la siguiente pregunta
             if (progreso >= totalPreguntas) {
-                alert('Bloque completado.');
+                alert('¡Bloque completado! Has terminado todas las preguntas.');
             } else {
                 mostrarSiguientePregunta(index + 1);
             }
@@ -108,6 +124,17 @@
         alert('Error en la conexión. Inténtalo de nuevo.');
     });
 }
+
+
+function mostrarSiguientePregunta(index) {
+    const currentPregunta = document.getElementById(`pregunta-${index - 1}`);
+    const nextPregunta = document.getElementById(`pregunta-${index}`);
+
+    if (currentPregunta) currentPregunta.style.display = 'none';
+    if (nextPregunta) nextPregunta.style.display = 'block';
+}
+
+
 
 </script>
 @endsection

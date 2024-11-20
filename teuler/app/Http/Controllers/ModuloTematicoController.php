@@ -43,38 +43,43 @@ class ModuloTematicoController extends Controller
 
     public function guardarRespuesta(Request $request)
     {
-        try {
+        
             \Log::info('Datos recibidos en guardarRespuesta:', $request->all());
     
             if (!auth()->check()) {
-                \Log::error("Usuario no autenticado.");
-                return response()->json(['success' => false, 'message' => 'Usuario no autenticado.']);
+                return response()->json(['success' => false, 'message' => 'Usuario no autenticado.'], 401);
             }
     
-            $usuarioId = auth()->check() ? auth()->user()->id : 1; // ID de prueba (1)
+            $usuarioId = auth()->user()->id;
     
+            // Validar y cargar módulo temático
             $modulo = ModuloTematico::find($request->input('modulo_id'));
             if (!$modulo) {
-                \Log::error("Módulo no encontrado con ID: " . $request->input('modulo_id'));
-                return response()->json(['success' => false, 'message' => 'Módulo no encontrado.']);
+                return response()->json(['success' => false, 'message' => 'Módulo no encontrado.'], 404);
             }
     
             $nombreColeccion = $modulo->ruta_preguntas;
-            \Log::info('Nombre de la colección en MongoDB:', [$nombreColeccion]);
     
+            // Buscar pregunta en MongoDB
             $pregunta = DB::connection('mongodb')
                 ->getMongoDB()
                 ->selectCollection($nombreColeccion)
                 ->findOne(['_id' => new \MongoDB\BSON\ObjectId($request->input('pregunta_id'))]);
     
             if (!$pregunta) {
-                \Log::error("Pregunta no encontrada en MongoDB.");
-                return response()->json(['success' => false, 'message' => 'Pregunta no encontrada.']);
+                return response()->json(['success' => false, 'message' => 'Pregunta no encontrada.'], 404);
             }
     
-            // Convertir respuesta del alumno y correcta a strings para comparación
-            $respuestaAlumno = (string) $request->input('respuesta');
-            $respuestaCorrecta = isset($pregunta['correcta']) ? (string) $pregunta['correcta'] : null;
+            // Procesar respuesta del alumno
+            $respuestaAlumno = trim((string) $request->input('respuesta')); // Convertir a string y limpiar espacios
+            $esCorrecto = false;
+    
+            // Comparar según el tipo de pregunta
+            if (isset($pregunta['correcta'])) {
+                $esCorrecto = $pregunta['correcta'] == $respuestaAlumno;
+            } elseif (isset($pregunta['opciones'])) {
+                $esCorrecto = array_key_exists($respuestaAlumno, (array)$pregunta['opciones']);
+            }
     
             // Guardar la respuesta
             $respuesta = new Respuesta();
@@ -82,8 +87,7 @@ class ModuloTematicoController extends Controller
             $respuesta->id_reactivo = $request->input('pregunta_id');
             $respuesta->id_modulo = $request->input('modulo_id');
             $respuesta->respuesta_alumno = $respuestaAlumno;
-            $respuesta->es_correcto = $respuestaCorrecta === $respuestaAlumno; // Comparar como cadenas
-    
+            $respuesta->es_correcto = $esCorrecto;
             $respuesta->save();
     
             // Actualizar progreso
@@ -94,14 +98,12 @@ class ModuloTematicoController extends Controller
             $progresoModulo->progreso += 10;
             $progresoModulo->save();
     
-            \Log::info("Progreso actualizado: {$progresoModulo->progreso}% para usuario {$usuarioId}");
-    
-            return response()->json(['success' => true, 'progreso' => $progresoModulo->progreso]);
-    
-        } catch (\Exception $e) {
-            \Log::error('Error en guardarRespuesta: ' . $e->getMessage());
-            return response()->json(['success' => false, 'message' => 'Error al procesar la solicitud.']);
-        }
+            return response()->json([
+                'success' => true,
+                'progreso' => $progresoModulo->progreso,
+                'es_correcto' => $esCorrecto,
+            ]);
+        
     }
     
     
