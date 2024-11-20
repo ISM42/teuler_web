@@ -6,76 +6,105 @@ use App\Models\ModuloTematico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Respuesta;
+use App\Models\ProgresoModulo;
+
 class ModuloTematicoController extends Controller
 {
-    /**
-     * Obtiene 10 preguntas aleatorias de la colección de MongoDB correspondiente a un módulo temático específico.
-     *
-     * @param int $id El ID del módulo temático en la base de datos relacional.
-     * @return \Illuminate\Contracts\View\View Una vista que contiene las preguntas aleatorias.
-     */
     public function obtenerPreguntasAleatorias($id)
     {
-        // Encuentra el módulo temático por su ID en MySQL
         $modulo = ModuloTematico::find($id);
-//dd($modulo);
         if (!$modulo || !$modulo->ruta_preguntas) {
-            // Retorna un error si el módulo no se encuentra o no tiene una ruta definida
             return response()->json(['error' => 'Módulo temático no encontrado o sin ruta de preguntas'], 404);
         }
 
-        // Obtiene el nombre de la colección de MongoDB desde el campo ruta_pregunta
         $nombreColeccion = $modulo->ruta_preguntas;
-       // dd($nombreColeccion);
+        //$usuario_id = auth()->user()->id;
+        $usuario_id =1;
 
-        // Accede a MongoDB y selecciona la colección específica
+        // Obtener IDs de preguntas ya respondidas en este módulo por el usuario
+        $preguntasRespondidas = Respuesta::where('id_usuario', $usuario_id)
+            ->where('id_modulo', $id)
+            ->pluck('id_reactivo')
+            ->toArray();
+
+        // Obtener 10 preguntas aleatorias excluyendo las respondidas
         $preguntas = DB::connection('mongodb')
             ->getMongoDB()
             ->selectCollection($nombreColeccion)
             ->aggregate([
-                ['$sample' => ['size' => 20]] // Selecciona 10 documentos al azar
+                ['$match' => ['_id' => ['$nin' => $preguntasRespondidas]]],
+                ['$sample' => ['size' => 10]]
             ])
-            ->toArray(); // Convierte el cursor a un array
-//dd($preguntas);
-        return view('preguntas', ['preguntas' => $preguntas]);
+            ->toArray();
+
+        return view('preguntas', ['preguntas' => $preguntas, 'modulo_id' => $id]);
     }
 
-
-//función para guardar la respuesta del usuario
-public function guardarRespuesta(Request $request)
+    public function guardarRespuesta(Request $request)
     {
-        // Validar los datos recibidos
-        $request->validate([
-            'pregunta_id' => 'required',
-            'respuesta' => 'required',
-        ]);
-
-        // Obtener la pregunta de MongoDB utilizando su ID
-        $preguntaId = new ObjectId($request->input('pregunta_id'));
-        $pregunta = \DB::connection('mongodb')
-                        ->getMongoDB()
-                        ->selectCollection('ejercicios_despejes')
-                        ->findOne(['_id' => $preguntaId]);
-
-        // Guardar la respuesta del usuario en la base de datos relacional o MongoDB según tus necesidades
-        // Aquí puedes almacenar la respuesta en una colección de respuestas o en una tabla SQL
-
-        $respuestaUsuario = [
-            'pregunta_id' => $preguntaId,
-            'respuesta' => $request->input('respuesta'),
-            'correcta' => $pregunta['correcta'] === $request->input('respuesta'), // Verificar si es correcta
-            'fecha' => now(),
-        ];
-
-        // Ejemplo de guardar en una colección de MongoDB llamada "respuestas_usuarios"
-        \DB::connection('mongodb')
-            ->getMongoDB()
-            ->selectCollection('respuestas_usuarios')
-            ->insertOne($respuestaUsuario);
-
-        // Redireccionar a la misma página o mostrar mensaje de éxito
-        return redirect()->back()->with('success', 'Respuesta guardada correctamente');
+        try {
+            \Log::info('Datos recibidos en guardarRespuesta:', $request->all());
+    
+            if (!auth()->check()) {
+                \Log::error("Usuario no autenticado.");
+                return response()->json(['success' => false, 'message' => 'Usuario no autenticado.']);
+            }
+    
+            $usuarioId = auth()->check() ? auth()->user()->id : 1; // ID de prueba (1)
+    
+            $modulo = ModuloTematico::find($request->input('modulo_id'));
+            if (!$modulo) {
+                \Log::error("Módulo no encontrado con ID: " . $request->input('modulo_id'));
+                return response()->json(['success' => false, 'message' => 'Módulo no encontrado.']);
+            }
+    
+            $nombreColeccion = $modulo->ruta_preguntas;
+            \Log::info('Nombre de la colección en MongoDB:', [$nombreColeccion]);
+    
+            $pregunta = DB::connection('mongodb')
+                ->getMongoDB()
+                ->selectCollection($nombreColeccion)
+                ->findOne(['_id' => new \MongoDB\BSON\ObjectId($request->input('pregunta_id'))]);
+    
+            if (!$pregunta) {
+                \Log::error("Pregunta no encontrada en MongoDB.");
+                return response()->json(['success' => false, 'message' => 'Pregunta no encontrada.']);
+            }
+    
+            // Convertir respuesta del alumno y correcta a strings para comparación
+            $respuestaAlumno = (string) $request->input('respuesta');
+            $respuestaCorrecta = isset($pregunta['correcta']) ? (string) $pregunta['correcta'] : null;
+    
+            // Guardar la respuesta
+            $respuesta = new Respuesta();
+            $respuesta->id_usuario = $usuarioId;
+            $respuesta->id_reactivo = $request->input('pregunta_id');
+            $respuesta->id_modulo = $request->input('modulo_id');
+            $respuesta->respuesta_alumno = $respuestaAlumno;
+            $respuesta->es_correcto = $respuestaCorrecta === $respuestaAlumno; // Comparar como cadenas
+    
+            $respuesta->save();
+    
+            // Actualizar progreso
+            $progresoModulo = ProgresoModulo::firstOrCreate(
+                ['id_alumno' => $usuarioId, 'id_modulo' => $respuesta->id_modulo],
+                ['intentos' => 1, 'progreso' => 0]
+            );
+            $progresoModulo->progreso += 10;
+            $progresoModulo->save();
+    
+            \Log::info("Progreso actualizado: {$progresoModulo->progreso}% para usuario {$usuarioId}");
+    
+            return response()->json(['success' => true, 'progreso' => $progresoModulo->progreso]);
+    
+        } catch (\Exception $e) {
+            \Log::error('Error en guardarRespuesta: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Error al procesar la solicitud.']);
+        }
     }
-
+    
+    
+    
 
 }
