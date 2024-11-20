@@ -90,11 +90,27 @@ Route::get('/despeje_incognitas_ejercicios', function () {
 /* Route::get('/perfil', function () {
     return view('perfil_usuario');
 }); */
-//Ruta para obtener 10 preguntas aleatorias desde mongo
-Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias']);
+//Ruta para obtener 10 preguntas aleatorias desde mongo (1er version)
+//Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias']);
 
-//ruta para guardar respuestas del usuario
-Route::post('/guardar_respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
+//rutas 2da version bloque de preguntas
+Route::post('/guardar-respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
+Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias'])->name('preguntas');
+
+//ruta para prueba directa de conexión con mongo
+Route::get('/test-mongodb', function () {
+    try {
+        $pregunta = DB::connection('mongodb')
+            ->getMongoDB()
+            ->selectCollection('ejercicios_expresiones_algebraicas')
+            ->findOne(['_id' => new \MongoDB\BSON\ObjectId('67368b3c7d78e82483c73bf9')]);
+        return response()->json($pregunta);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
+
+//fin ruta test-mongo
 
 
 //FIN RUTAS TEMPORALES
