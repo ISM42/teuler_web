@@ -77,53 +77,56 @@
         method: "POST",
         headers: {
             "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
         },
         body: JSON.stringify({
             pregunta_id: preguntaId,
             modulo_id: {{ $modulo_id }},
-            respuesta: respuesta
+            respuesta: respuesta,
+        }),
+    })
+        .then(response => response.json())
+        .then(data => {
+            console.log("Respuesta del servidor:", data);
+
+            if (data.success) {
+                // Retroalimentación visual
+                const currentPregunta = document.getElementById(`pregunta-${index}`);
+                if (data.es_correcto) {
+                    currentPregunta.style.border = "2px solid green";
+                } else {
+                    currentPregunta.style.border = "2px solid red";
+                }
+
+                // Actualizar barra de progreso
+                progreso += 1;
+                const progressBar = document.getElementById("progress-bar");
+                if (progressBar) {
+                    const porcentaje = (progreso / totalPreguntas) * 100;
+                    progressBar.style.width = `${porcentaje}%`;
+                    progressBar.textContent = `${Math.round(porcentaje)}%`; // Opcional: mostrar porcentaje en la barra
+                } else {
+                    console.error("Elemento 'progress-bar' no encontrado.");
+                }
+
+                // Comprobar si se debe redirigir al usuario
+                if (data.redirect) {
+                    alert('¡Bloque completado! Redirigiendo a la página de finalización.');
+                    window.location.href = data.redirect;
+                } else if (progreso < totalPreguntas) {
+                    // Avanzar a la siguiente pregunta
+                    mostrarSiguientePregunta(index + 1);
+                }
+            } else {
+                alert(data.message || "Hubo un error al guardar la respuesta.");
+            }
         })
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log("Respuesta del servidor:", data);
-
-        if (data.success) {
-            // Retroalimentación visual
-            const currentPregunta = document.getElementById(`pregunta-${index}`);
-            if (data.es_correcto) {
-                currentPregunta.style.border = "2px solid green";
-            } else {
-                currentPregunta.style.border = "2px solid red";
-            }
-
-            // Actualizar barra de progreso
-            progreso += 1;
-            const progressBar = document.getElementById("progress-bar");
-            if (progressBar) {
-                const porcentaje = (progreso / totalPreguntas) * 100;
-                progressBar.style.width = `${porcentaje}%`;
-                progressBar.textContent = `${Math.round(porcentaje)}%`; // Opcional: mostrar porcentaje en la barra
-            } else {
-                console.error("Elemento 'progress-bar' no encontrado.");
-            }
-
-            // Avanzar a la siguiente pregunta
-            if (progreso >= totalPreguntas) {
-                alert('¡Bloque completado! Has terminado todas las preguntas.');
-            } else {
-                mostrarSiguientePregunta(index + 1);
-            }
-        } else {
-            alert(data.message || 'Hubo un error al guardar la respuesta.');
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        alert('Error en la conexión. Inténtalo de nuevo.');
-    });
+        .catch(error => {
+            console.error("Error:", error);
+            alert("Error en la conexión. Inténtalo de nuevo.");
+        });
 }
+
 
 
 function mostrarSiguientePregunta(index) {

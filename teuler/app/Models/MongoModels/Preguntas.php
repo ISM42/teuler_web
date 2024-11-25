@@ -11,5 +11,5 @@ class Preguntas extends Model
 {
     protected $connection = 'mongodb'; // Usa la conexión de MongoDB
     protected $collection = 'ejercicios_despejes'; // Nombre de la colección en MongoDB
-    
+   // protected $collection = 'ejercicios_expresiones_algebraicas';
 }
