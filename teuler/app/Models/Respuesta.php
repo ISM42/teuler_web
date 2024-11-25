@@ -9,7 +9,7 @@ class Respuesta extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'id_user',
+        'id_usuario',
         'id_reactivo',
         'id_modulo',
         'respuesta_alumno',
