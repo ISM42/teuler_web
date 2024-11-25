@@ -43,67 +43,72 @@ class ModuloTematicoController extends Controller
 
     public function guardarRespuesta(Request $request)
     {
-        
-            \Log::info('Datos recibidos en guardarRespuesta:', $request->all());
+        \Log::info('Datos recibidos en guardarRespuesta:', $request->all());
     
-            if (!auth()->check()) {
-                return response()->json(['success' => false, 'message' => 'Usuario no autenticado.'], 401);
-            }
+        if (!auth()->check()) {
+            return response()->json(['success' => false, 'message' => 'Usuario no autenticado.'], 401);
+        }
     
-            $usuarioId = auth()->user()->id;
+        $usuarioId = auth()->user()->id;
     
-            // Validar y cargar módulo temático
-            $modulo = ModuloTematico::find($request->input('modulo_id'));
-            if (!$modulo) {
-                return response()->json(['success' => false, 'message' => 'Módulo no encontrado.'], 404);
-            }
+        // Validar y cargar módulo temático
+        $modulo = ModuloTematico::find($request->input('modulo_id'));
+        if (!$modulo) {
+            return response()->json(['success' => false, 'message' => 'Módulo no encontrado.'], 404);
+        }
     
-            $nombreColeccion = $modulo->ruta_preguntas;
+        $nombreColeccion = $modulo->ruta_preguntas;
     
-            // Buscar pregunta en MongoDB
-            $pregunta = DB::connection('mongodb')
-                ->getMongoDB()
-                ->selectCollection($nombreColeccion)
-                ->findOne(['_id' => new \MongoDB\BSON\ObjectId($request->input('pregunta_id'))]);
+        // Buscar pregunta en MongoDB
+        $pregunta = DB::connection('mongodb')
+            ->getMongoDB()
+            ->selectCollection($nombreColeccion)
+            ->findOne(['_id' => new \MongoDB\BSON\ObjectId($request->input('pregunta_id'))]);
     
-            if (!$pregunta) {
-                return response()->json(['success' => false, 'message' => 'Pregunta no encontrada.'], 404);
-            }
+        if (!$pregunta) {
+            return response()->json(['success' => false, 'message' => 'Pregunta no encontrada.'], 404);
+        }
     
-            // Procesar respuesta del alumno
-            $respuestaAlumno = trim((string) $request->input('respuesta')); // Convertir a string y limpiar espacios
-            $esCorrecto = false;
+        // Procesar respuesta del alumno
+        $respuestaAlumno = trim((string) $request->input('respuesta')); // Convertir a string y limpiar espacios
+        $esCorrecto = false;
     
-            // Comparar según el tipo de pregunta
-            if (isset($pregunta['correcta'])) {
-                $esCorrecto = $pregunta['correcta'] == $respuestaAlumno;
-            } elseif (isset($pregunta['opciones'])) {
-                $esCorrecto = array_key_exists($respuestaAlumno, (array)$pregunta['opciones']);
-            }
+        // Comparar según el tipo de pregunta
+        if (isset($pregunta['correcta'])) {
+            $esCorrecto = $pregunta['correcta'] == $respuestaAlumno;
+        } elseif (isset($pregunta['opciones'])) {
+            $esCorrecto = array_key_exists($respuestaAlumno, (array)$pregunta['opciones']);
+        }
     
-            // Guardar la respuesta
-            $respuesta = new Respuesta();
-            $respuesta->id_usuario = $usuarioId;
-            $respuesta->id_reactivo = $request->input('pregunta_id');
-            $respuesta->id_modulo = $request->input('modulo_id');
-            $respuesta->respuesta_alumno = $respuestaAlumno;
-            $respuesta->es_correcto = $esCorrecto;
-            $respuesta->save();
+        // Guardar la respuesta
+        $respuesta = new Respuesta();
+        $respuesta->id_usuario = $usuarioId;
+        $respuesta->id_reactivo = $request->input('pregunta_id');
+        $respuesta->id_modulo = $request->input('modulo_id');
+        $respuesta->respuesta_alumno = $respuestaAlumno;
+        $respuesta->es_correcto = $esCorrecto;
+        $respuesta->save();
     
-            // Actualizar progreso
-            $progresoModulo = ProgresoModulo::firstOrCreate(
-                ['id_alumno' => $usuarioId, 'id_modulo' => $respuesta->id_modulo],
-                ['intentos' => 1, 'progreso' => 0]
-            );
-            $progresoModulo->progreso += 10;
-            $progresoModulo->save();
+        // Actualizar progreso
+        $progresoModulo = ProgresoModulo::firstOrCreate(
+            ['id_alumno' => $usuarioId, 'id_modulo' => $respuesta->id_modulo],
+            ['intentos' => 1, 'progreso' => 0]
+        );
+        $progresoModulo->progreso += 10;
+        $progresoModulo->save();
     
-            return response()->json([
-                'success' => true,
-                'progreso' => $progresoModulo->progreso,
-                'es_correcto' => $esCorrecto,
-            ]);
-        
+        // Verificar si se completó el bloque
+        $redirectUrl = null;
+        if ($progresoModulo->progreso >= 100) {
+            $redirectUrl = route('preguntas_despejes'); 
+        }
+    
+        return response()->json([
+            'success' => true,
+            'progreso' => $progresoModulo->progreso,
+            'es_correcto' => $esCorrecto,
+            'redirect' => $redirectUrl, 
+        ]);
     }
     
     
