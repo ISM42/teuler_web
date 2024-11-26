@@ -70,7 +70,7 @@ class ModuloTematicoController extends Controller
         }
     
         // Procesar respuesta del alumno
-        $respuestaAlumno = trim((string) $request->input('respuesta')); // Convertir a string y limpiar espacios
+        $respuestaAlumno = trim((string) $request->input('respuesta'));
         $esCorrecto = false;
     
         // Comparar según el tipo de pregunta
@@ -97,17 +97,21 @@ class ModuloTematicoController extends Controller
         $progresoModulo->progreso += 10;
         $progresoModulo->save();
     
-        // Verificar si se completó el bloque
+        // Verificar si se completó el bloque y establecer redirección dinámica
         $redirectUrl = null;
         if ($progresoModulo->progreso >= 100) {
-            $redirectUrl = route('preguntas_despejes'); 
+            $redirectUrl = match ($modulo->nombre) {
+                'Despejes y Ecuaciones Lineales' => route('preguntas_despejes'),
+                'Expresiones Algebraicas' => route('preguntas_simplificacion'),
+                default => route('home'), // Ruta genérica si no coincide
+            };
         }
     
         return response()->json([
             'success' => true,
             'progreso' => $progresoModulo->progreso,
             'es_correcto' => $esCorrecto,
-            'redirect' => $redirectUrl, 
+            'redirect' => $redirectUrl,
         ]);
     }
     
