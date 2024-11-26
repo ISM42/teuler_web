@@ -17,4 +17,9 @@ class Rol extends Model
         'nombre'
         
     ];
+
+    public function usuarios()
+    {
+        return $this->hasMany(Usuarios::class, 'id_rol');
+    }
 }
