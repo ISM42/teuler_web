@@ -18,21 +18,30 @@ class LoginController extends Controller
     public function Login(Request $request)
     {
         $email = $request->input('email');
-        $password = $request->input('contraseña'); //nombre del input del HTML para contraseña
-
-        // Buscar el usuario en la base de datos
-        $usuario = Usuarios::where('email', $email)->first();
-
-      //      dd($usuario);
-
+        $password = $request->input('contraseña'); // Nombre del input del HTML para contraseña
+    
+        // Buscar el usuario en la base de datos con su rol
+        $usuario = Usuarios::with('rol')->where('email', $email)->first();
+    
         // Verificar si el usuario existe y si la contraseña es correcta
         if ($usuario && Hash::check($password, $usuario->password)) {
             Auth::login($usuario);
-            return redirect('/home')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre_usuario);
+    
+            // Redirigir según el rol del usuario
+            if ($usuario->rol && $usuario->rol->nombre === 'Estudiante') {
+                return redirect('/cursos')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
+            } elseif ($usuario->rol && $usuario->rol->nombre === 'Profesor') {
+                return redirect('/home')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
+            }
+    
+            // Si no tiene un rol específico, redirigir a una vista genérica
+            return redirect('/home')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
         } else {
             return back()->with('Error_login', "Usuario o contraseña erróneos");
         }
     }
+    
+    
 
 
     public function logout(Request $request)

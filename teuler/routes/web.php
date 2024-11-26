@@ -15,13 +15,13 @@ use App\Http\Controllers\ModuloTematicoController;
 |
 */
 
-Route::get('/',[LoginController::class, 'index']); //login
+Route::get('/login',[LoginController::class, 'index'])->name('login'); //login
 
 //LOGIN
 Route::post('/login',[LoginController::class, 'login']);
 //fin login
 
-Route::get('/home', function () {
+Route::get('/', function () {
     return view('home_teuler');
 });
 
