@@ -12,34 +12,50 @@ use App\Models\ProgresoModulo;
 class ModuloTematicoController extends Controller
 {
     public function obtenerPreguntasAleatorias($id)
-    {
-        $modulo = ModuloTematico::find($id);
-        if (!$modulo || !$modulo->ruta_preguntas) {
-            return response()->json(['error' => 'Módulo temático no encontrado o sin ruta de preguntas'], 404);
-        }
-
-        $nombreColeccion = $modulo->ruta_preguntas;
-        //$usuario_id = auth()->user()->id;
-        $usuario_id =1;
-
-        // Obtener IDs de preguntas ya respondidas en este módulo por el usuario
-        $preguntasRespondidas = Respuesta::where('id_usuario', $usuario_id)
-            ->where('id_modulo', $id)
-            ->pluck('id_reactivo')
-            ->toArray();
-
-        // Obtener 10 preguntas aleatorias excluyendo las respondidas
-        $preguntas = DB::connection('mongodb')
-            ->getMongoDB()
-            ->selectCollection($nombreColeccion)
-            ->aggregate([
-                ['$match' => ['_id' => ['$nin' => $preguntasRespondidas]]],
-                ['$sample' => ['size' => 10]]
-            ])
-            ->toArray();
-
-        return view('preguntas', ['preguntas' => $preguntas, 'modulo_id' => $id]);
+{
+    $modulo = ModuloTematico::find($id);
+    if (!$modulo || !$modulo->ruta_preguntas) {
+        return response()->json(['error' => 'Módulo temático no encontrado o sin ruta de preguntas'], 404);
     }
+
+    $nombreColeccion = $modulo->ruta_preguntas;
+    $usuario_id = auth()->user()->id;
+
+    // Obtener IDs de preguntas ya respondidas en este módulo por el usuario
+    $preguntasRespondidas = Respuesta::where('id_usuario', $usuario_id)
+        ->where('id_modulo', $id)
+        ->pluck('id_reactivo')
+        ->toArray();
+
+    // Obtener 10 preguntas aleatorias excluyendo las respondidas
+    $preguntas = DB::connection('mongodb')
+        ->getMongoDB()
+        ->selectCollection($nombreColeccion)
+        ->aggregate([
+            ['$match' => ['_id' => ['$nin' => $preguntasRespondidas]]],
+            ['$sample' => ['size' => 10]]
+        ])
+        ->toArray();
+
+    // Definir el título dinámico basado en el módulo
+    $titulo = match ($modulo->nombre) {
+        'Despejes y Ecuaciones Lineales' => 'Ejercicios: despejes y ecuaciones lineales',
+        'Expresiones Algebraicas' => 'Ejercicios: expresiones algebraicas',
+        default => 'Preguntas',
+    };
+
+    // Retornar vista con el título dinámico
+    return view('preguntas', [
+        'preguntas' => $preguntas,
+        'modulo_id' => $id,
+        'titulo' => $titulo, // Pasar el título a la vista
+    ]);
+}
+
+
+
+
+
 
     public function guardarRespuesta(Request $request)
     {
