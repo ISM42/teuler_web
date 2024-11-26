@@ -88,6 +88,10 @@ Route::get('/despeje_incognitas_ejercicios', function () {
     return view('cursos.algebra.despejes.ejercicios_despejes_incognitas');
 });
 
+Route::get('/simplificacion_expresiones', function () {
+    return view('cursos.algebra.expresiones.tema2_simplificacion');
+})->name('preguntas_simplificacion');
+
 /* Route::get('/perfil', function () {
     return view('perfil_usuario');
 }); */
