@@ -25,7 +25,7 @@ class Usuarios extends Authenticatable
         'avatar',
     ];
 
-    protected $hiddens = [
+    protected $hidden = [
         'password',
         'remember_token',
     ];
