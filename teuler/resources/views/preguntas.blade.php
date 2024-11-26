@@ -1,5 +1,5 @@
 @extends('layouts.template_teuler')
-@section('titulo', 'Preguntas Despejes')
+@section('titulo', $titulo)
 
 @section('contenido')
 
