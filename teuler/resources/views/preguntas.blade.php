@@ -77,54 +77,51 @@
         method: "POST",
         headers: {
             "X-CSRF-TOKEN": document.querySelector('input[name="_token"]').value,
-            "Content-Type": "application/json",
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
             pregunta_id: preguntaId,
             modulo_id: {{ $modulo_id }},
-            respuesta: respuesta,
-        }),
+            respuesta: respuesta
+        })
     })
-        .then(response => response.json())
-        .then(data => {
-            console.log("Respuesta del servidor:", data);
+    .then(response => response.json())
+    .then(data => {
+        console.log("Respuesta del servidor:", data);
 
-            if (data.success) {
-                // Retroalimentación visual
-                const currentPregunta = document.getElementById(`pregunta-${index}`);
-                if (data.es_correcto) {
-                    currentPregunta.style.border = "2px solid green";
-                } else {
-                    currentPregunta.style.border = "2px solid red";
-                }
+        if (data.success) {
+            const currentPregunta = document.getElementById(`pregunta-${index}`);
+            if (data.es_correcto) {
+                currentPregunta.style.border = "2px solid green";
+            } else {
+                currentPregunta.style.border = "2px solid red";
+            }
 
-                // Actualizar barra de progreso
-                progreso += 1;
-                const progressBar = document.getElementById("progress-bar");
-                if (progressBar) {
-                    const porcentaje = (progreso / totalPreguntas) * 100;
-                    progressBar.style.width = `${porcentaje}%`;
-                    progressBar.textContent = `${Math.round(porcentaje)}%`; // Opcional: mostrar porcentaje en la barra
-                } else {
-                    console.error("Elemento 'progress-bar' no encontrado.");
-                }
+            progreso += 1;
+            const progressBar = document.getElementById("progress-bar");
+            if (progressBar) {
+                const porcentaje = (progreso / totalPreguntas) * 100;
+                progressBar.style.width = `${porcentaje}%`;
+                progressBar.textContent = `${Math.round(porcentaje)}%`;
+            }
 
-                // Comprobar si se debe redirigir al usuario
+            if (progreso >= totalPreguntas) {
                 if (data.redirect) {
-                    alert('¡Bloque completado! Redirigiendo a la página de finalización.');
-                    window.location.href = data.redirect;
-                } else if (progreso < totalPreguntas) {
-                    // Avanzar a la siguiente pregunta
-                    mostrarSiguientePregunta(index + 1);
+                    window.location.href = data.redirect; // Redirigir a la URL especificada
+                } else {
+                    alert('¡Bloque completado!');
                 }
             } else {
-                alert(data.message || "Hubo un error al guardar la respuesta.");
+                mostrarSiguientePregunta(index + 1);
             }
-        })
-        .catch(error => {
-            console.error("Error:", error);
-            alert("Error en la conexión. Inténtalo de nuevo.");
-        });
+        } else {
+            alert(data.message || 'Hubo un error al guardar la respuesta.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error en la conexión. Inténtalo de nuevo.');
+    });
 }
 
 
