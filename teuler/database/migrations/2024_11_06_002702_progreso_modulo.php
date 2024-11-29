@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('id_modulo')->constrained('modulos_tematicos');
             $table->integer('intentos');
             $table->decimal('progreso', 5, 2);
-            $table->time('tiempo_empleado');
+            $table->time('tiempo_empleado')->default('00:00:00');
             $table->timestamps();
 
             //restricción para que el alumno sólo pueda registrarse una sola vez al mismo módulo.

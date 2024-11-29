@@ -6,37 +6,132 @@ use App\Models\ModuloTematico;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\Respuesta;
+use App\Models\ProgresoModulo;
+
 class ModuloTematicoController extends Controller
 {
-    /**
-     * Obtiene 10 preguntas aleatorias de la colección de MongoDB correspondiente a un módulo temático específico.
-     *
-     * @param int $id El ID del módulo temático en la base de datos relacional.
-     * @return \Illuminate\Contracts\View\View Una vista que contiene las preguntas aleatorias.
-     */
     public function obtenerPreguntasAleatorias($id)
+{
+    $modulo = ModuloTematico::find($id);
+    if (!$modulo || !$modulo->ruta_preguntas) {
+        return response()->json(['error' => 'Módulo temático no encontrado o sin ruta de preguntas'], 404);
+    }
+
+    $nombreColeccion = $modulo->ruta_preguntas;
+    $usuario_id = auth()->user()->id;
+
+    // Obtener IDs de preguntas ya respondidas en este módulo por el usuario
+    $preguntasRespondidas = Respuesta::where('id_usuario', $usuario_id)
+        ->where('id_modulo', $id)
+        ->pluck('id_reactivo')
+        ->toArray();
+
+    // Obtener 10 preguntas aleatorias excluyendo las respondidas
+    $preguntas = DB::connection('mongodb')
+        ->getMongoDB()
+        ->selectCollection($nombreColeccion)
+        ->aggregate([
+            ['$match' => ['_id' => ['$nin' => $preguntasRespondidas]]],
+            ['$sample' => ['size' => 10]]
+        ])
+        ->toArray();
+
+    // Definir el título dinámico basado en el módulo
+    $titulo = match ($modulo->nombre) {
+        'Despejes y Ecuaciones Lineales' => 'Ejercicios: despejes y ecuaciones lineales',
+        'Expresiones Algebraicas' => 'Ejercicios: expresiones algebraicas',
+        default => 'Preguntas',
+    };
+
+    // Retornar vista con el título dinámico
+    return view('preguntas', [
+        'preguntas' => $preguntas,
+        'modulo_id' => $id,
+        'titulo' => $titulo, // Pasar el título a la vista
+    ]);
+}
+
+
+
+
+
+
+    public function guardarRespuesta(Request $request)
     {
-        // Encuentra el módulo temático por su ID en MySQL
-        $modulo = ModuloTematico::find($id);
-
-        if (!$modulo || !$modulo->ruta_preguntas) {
-            // Retorna un error si el módulo no se encuentra o no tiene una ruta definida
-            return response()->json(['error' => 'Módulo temático no encontrado o sin ruta de preguntas'], 404);
+        \Log::info('Datos recibidos en guardarRespuesta:', $request->all());
+    
+        if (!auth()->check()) {
+            return response()->json(['success' => false, 'message' => 'Usuario no autenticado.'], 401);
         }
-
-        // Obtiene el nombre de la colección de MongoDB desde el campo ruta_pregunta
+    
+        $usuarioId = auth()->user()->id;
+    
+        // Validar y cargar módulo temático
+        $modulo = ModuloTematico::find($request->input('modulo_id'));
+        if (!$modulo) {
+            return response()->json(['success' => false, 'message' => 'Módulo no encontrado.'], 404);
+        }
+    
         $nombreColeccion = $modulo->ruta_preguntas;
-       // dd($nombreColeccion);
-
-        // Accede a MongoDB y selecciona la colección específica
-        $preguntas = DB::connection('mongodb')
+    
+        // Buscar pregunta en MongoDB
+        $pregunta = DB::connection('mongodb')
             ->getMongoDB()
             ->selectCollection($nombreColeccion)
-            ->aggregate([
-                ['$sample' => ['size' => 10]] // Selecciona 10 documentos al azar
-            ])
-            ->toArray(); // Convierte el cursor a un array
-//dd($preguntas);
-        return view('preguntas', ['preguntas' => $preguntas]);
+            ->findOne(['_id' => new \MongoDB\BSON\ObjectId($request->input('pregunta_id'))]);
+    
+        if (!$pregunta) {
+            return response()->json(['success' => false, 'message' => 'Pregunta no encontrada.'], 404);
+        }
+    
+        // Procesar respuesta del alumno
+        $respuestaAlumno = trim((string) $request->input('respuesta'));
+        $esCorrecto = false;
+    
+        // Comparar según el tipo de pregunta
+        if (isset($pregunta['correcta'])) {
+            $esCorrecto = $pregunta['correcta'] == $respuestaAlumno;
+        } elseif (isset($pregunta['opciones'])) {
+            $esCorrecto = array_key_exists($respuestaAlumno, (array)$pregunta['opciones']);
+        }
+    
+        // Guardar la respuesta
+        $respuesta = new Respuesta();
+        $respuesta->id_usuario = $usuarioId;
+        $respuesta->id_reactivo = $request->input('pregunta_id');
+        $respuesta->id_modulo = $request->input('modulo_id');
+        $respuesta->respuesta_alumno = $respuestaAlumno;
+        $respuesta->es_correcto = $esCorrecto;
+        $respuesta->save();
+    
+        // Actualizar progreso
+        $progresoModulo = ProgresoModulo::firstOrCreate(
+            ['id_alumno' => $usuarioId, 'id_modulo' => $respuesta->id_modulo],
+            ['intentos' => 1, 'progreso' => 0]
+        );
+        $progresoModulo->progreso += 10;
+        $progresoModulo->save();
+    
+        // Verificar si se completó el bloque y establecer redirección dinámica
+        $redirectUrl = null;
+        if ($progresoModulo->progreso >= 100) {
+            $redirectUrl = match ($modulo->nombre) {
+                'Despejes y Ecuaciones Lineales' => route('preguntas_despejes'),
+                'Expresiones Algebraicas' => route('preguntas_simplificacion'),
+                default => route('home'), // Ruta genérica si no coincide
+            };
+        }
+    
+        return response()->json([
+            'success' => true,
+            'progreso' => $progresoModulo->progreso,
+            'es_correcto' => $esCorrecto,
+            'redirect' => $redirectUrl,
+        ]);
     }
+    
+    
+    
+
 }

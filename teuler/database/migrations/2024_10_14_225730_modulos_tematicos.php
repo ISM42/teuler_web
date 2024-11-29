@@ -24,7 +24,7 @@ return new class extends Migration
             [
                 'nombre' => 'Expresiones Algebraicas',
                 'id_curso' => 1,
-                'ruta_preguntas' => '', //establecer la ruta en cuanto se tenga la colección de MongoDB
+                'ruta_preguntas' => 'ejercicios_expresiones_algebraicas', //establecer la ruta en cuanto se tenga la colección de MongoDB
                 'num_min_preguntas'=>20,
             ],
             [

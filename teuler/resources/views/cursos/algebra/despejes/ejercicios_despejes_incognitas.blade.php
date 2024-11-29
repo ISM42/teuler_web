@@ -20,6 +20,8 @@
 <p>Y esta es una ecuación en bloque:</p>
 <p>$$ f(x) = ax^2 + bx + c $$</p>
 
+
+<p>$$\frac{3}{4}$$</p>
 </div>
 
     </main>
