@@ -98,6 +98,9 @@ Route::get('/mi_aprendizaje', function () {
 });
 
 Route::get('/mis_cursos', [cursoProfeController::class, 'index'])->name('cursos');
+Route::post('/guardar_curso_profesor', [cursoProfeController::class, 'store']);
+
+
 //rutas 2da version bloque de preguntas
 Route::post('/guardar-respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
 Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias'])->name('preguntas');
