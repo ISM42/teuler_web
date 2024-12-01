@@ -17,4 +17,13 @@ class cursoProfesor extends Model
     public function cursos(){
         return $this->belongsTo(Curso::class,'id_curso');
     }
+
+    public function profesor(){
+        return $this->belongsTo(Usuarios::class,'id_profesor');
+    }
+
+    public function inscripciones()
+{
+    return $this->hasMany(inscripciones::class, 'id_curso_prof');
+}
 }

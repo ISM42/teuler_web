@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('id_curso_prof')->constrained('curso_profesor');
             $table->foreignId('id_usuario')->constrained('usuarios');
+            $table->boolean('estatus')->default(1);
             $table->timestamps();
         });
     }
