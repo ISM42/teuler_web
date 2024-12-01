@@ -9,6 +9,7 @@ use App\Models\Rol;
 use App\Models\Area;
 use App\Models\Curso;
 use App\Models\cursoProfesor;
+use DB;
 
 
 use Illuminate\Support\Facades\Session;
@@ -60,6 +61,44 @@ public function destroy($id)
 
             return redirect()->back();
         
+    }
+
+
+    public function progresoAlumnos()
+    {
+        $profesorId = Auth::id();
+    
+        $resultados = DB::table('inscripciones')
+            ->join('usuarios as estudiante', 'inscripciones.id_usuario', '=', 'estudiante.id')
+            ->join('curso_profesor', 'inscripciones.id_curso_prof', '=', 'curso_profesor.id')
+            ->join('cursos', 'curso_profesor.id_curso', '=', 'cursos.id')
+            ->join('respuestas', 'estudiante.id', '=', 'respuestas.id_usuario')
+            ->join('modulos_tematicos', 'respuestas.id_modulo', '=', 'modulos_tematicos.id')
+            ->select(
+                'estudiante.nombre',
+                'estudiante.apellido_p',
+                'estudiante.apellido_m',
+                'estudiante.email',
+                'cursos.nombre as curso',
+                'modulos_tematicos.nombre as nombre_modulo',
+                DB::raw('COUNT(respuestas.id) as num_respuestas'),
+                DB::raw('SUM(CASE WHEN respuestas.es_correcto = 1 THEN 1 ELSE 0 END) as num_respuestas_correctas'),
+                'modulos_tematicos.num_min_preguntas'
+            )
+            ->where('inscripciones.estatus', 1)
+            ->where('curso_profesor.id_profesor', $profesorId)
+            ->groupBy(
+                'estudiante.nombre',
+                'estudiante.apellido_p',
+                'estudiante.apellido_m',
+                'estudiante.email',
+                'cursos.nombre',
+                'modulos_tematicos.nombre',
+                'modulos_tematicos.num_min_preguntas'
+            )
+            ->get();
+    //dd($resultados);
+        return view('profesor.progreso_alumnos', compact('resultados'));
     }
 
 }
