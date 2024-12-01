@@ -99,11 +99,13 @@ Route::get('/mi_aprendizaje', function () {
 
 Route::get('/mis_cursos', [cursoProfeController::class, 'index'])->name('cursos');
 Route::post('/guardar_curso_profesor', [cursoProfeController::class, 'store']);
+Route::delete('/eliminar_curso_prof/{id}', [cursoProfeController::class, 'destroy'])->name('eliminar_cursoP');
 
 
 //rutas 2da version bloque de preguntas
 Route::post('/guardar-respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
 Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias'])->name('preguntas');
+
 //fin 2da version bloque de preguntas
 
 
