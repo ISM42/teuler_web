@@ -15,10 +15,12 @@
                     <div class="mb-5">
                         <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
                         <input type="email" name="email" id="email" class="rounded-lg w-full p-2.5" required />
+                        <p class="text-red-600 font-sans font-bold mt-1">{{ $errors->first('email') }}</p>  
                     </div>
                     <div class="mb-5">
                         <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
                         <input type="password" id="password" name="contraseña" class="rounded-lg w-full p-2.5" required />
+                        <p class="text-red-600 font-sans font-bold mt-1">{{ $errors->first('password') }}</p>  
                     </div>
                     <div class="flex items-start mb-5">
                     <!--  <a href="/home" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">¿Eres nuevo? Regístrate</a> -->
