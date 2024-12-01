@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('inscripciones', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_curso')->constrained('cursos');
+            $table->foreignId('id_curso_prof')->constrained('curso_profesor');
             $table->foreignId('id_usuario')->constrained('usuarios');
             $table->timestamps();
         });
