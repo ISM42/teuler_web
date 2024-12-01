@@ -14,27 +14,26 @@
 
 <li class="pb-8">
 <a href="/algebra" class="btn-curso bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Álgebra</a>
-<!-- <a href="/algebra" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Álgebra</a> -->
 </li>
 
 <li class="pb-8">
-<a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Geometría Euclidiana</a>
+<a href="#" class="btn-curso bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Geometría Euclidiana</a>
 </li>
 
 <li class="pb-8">
-<a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Trigonometría</a>
-</li>
-
- <li class="pb-8">
-<a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Geometría Analítica</a>
-</li>
-
- <li class="pb-8">
-<a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Cálculo Diferencial</a>
+<a href="#" class="btn-curso bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Trigonometría</a>
 </li>
 
 <li class="pb-8">
-<a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Cálculo integral</a>
+<a href="#" class="btn-curso bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Geometría Analítica</a>
+</li>
+
+<li class="pb-8">
+<a href="#" class="btn-curso bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Cálculo Diferencial</a>
+</li>
+
+<li class="pb-8">
+<a href="#" class="btn-curso bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Cálculo Integral</a>
 </li>
 
 </ul>
