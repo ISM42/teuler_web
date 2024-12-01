@@ -79,4 +79,42 @@ class InscripcionesController extends Controller
                 return redirect()->back();
             
         }
+
+
+    public function progresoEstudiante()
+{
+
+    $usuarioId=Auth::id();
+    $resultados = DB::table('inscripciones')
+        ->join('curso_profesor', 'inscripciones.id_curso_prof', '=', 'curso_profesor.id')
+        ->join('usuarios as profesor', 'curso_profesor.id_profesor', '=', 'profesor.id')
+        ->join('cursos', 'curso_profesor.id_curso', '=', 'cursos.id')
+        ->join('respuestas', 'inscripciones.id_usuario', '=', 'respuestas.id_usuario')
+        ->join('modulos_tematicos', 'respuestas.id_modulo', '=', 'modulos_tematicos.id')
+        ->select(
+            'profesor.nombre',
+            'profesor.apellido_p',
+            'profesor.apellido_m',
+            'profesor.email',
+            'cursos.nombre as curso',
+            'modulos_tematicos.nombre as nombre_modulo',
+            DB::raw('COUNT(respuestas.id) as num_respuestas'),
+            DB::raw('SUM(CASE WHEN respuestas.es_correcto = 1 THEN 1 ELSE 0 END) as num_respuestas_correctas'),
+            'modulos_tematicos.num_min_preguntas'
+        )
+        ->where('inscripciones.estatus', 1)
+        ->where('inscripciones.id_usuario', $usuarioId)
+        ->groupBy(
+            'profesor.nombre',
+            'profesor.apellido_p',
+            'profesor.apellido_m',
+            'profesor.email',
+            'cursos.nombre',
+            'modulos_tematicos.nombre',
+            'modulos_tematicos.num_min_preguntas'
+        )
+        ->get();
+//dd($resultados);
+    return view('estudiante.progreso', compact('resultados'));
+}
 }

@@ -53,7 +53,7 @@
           <td class="px-4 py-2 border-b">{{$curso_ins->nombre_prof}} {{$curso_ins->apellido_p}} {{$curso_ins->apellido_m}}</td>
           <form action="{{route('eliminar_inscripcion', $curso_ins->id)}}" method="POST">
           <td class="px-4 py-2 border-b text-center">
-            <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-all">Ver</button>
+            <a href="/mi_progreso" class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-all">Ver</a>
                  @csrf
                 @method('DELETE')
                 <button data-modal-target="eliminar_ins" data-modal-toggle="eliminar_ins" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-all ml-2" type="button">
