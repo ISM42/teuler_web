@@ -1,0 +1,226 @@
+body{
+    background: #F5F5F5;
+}
+
+.profile-container {
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    flex-wrap: wrap; 
+    background-color: #f8f8f8; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 20px;
+    max-width: 1200px; 
+    margin: 20px auto; 
+    gap: 20px; 
+    padding: 2rem; 
+    column-gap: 2rem;
+}
+
+.card-info{
+    display: flex;
+    justify-content: space-between;
+    align-items: center; 
+    flex-wrap: wrap; 
+    background-color: #f4f4f4; 
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    padding: 20px;
+    max-width: 1200px; 
+    margin: 20px auto; 
+    gap: 20px; 
+}
+
+.avatar-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    text-align: center;
+    height: 100%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    max-width: 300px; 
+}
+
+.avatar-container img {
+    margin-bottom: 1rem; 
+}
+
+.avatar-container form {
+    margin-bottom: 0.5rem; 
+}
+
+
+.avatar {
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.avatar-button {
+    background-color: #151830;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-align: center;
+}
+
+.avatar-button:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+.label {
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.input {
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+.input:focus {
+    border-color: #D491FE; 
+    box-shadow: 0 0 5px rgba(203, 119, 255, 0.5);
+}
+
+.action-button {
+    background-color: #151830;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    color: white;
+    border: none;
+    width: 100%;
+    max-width: 200px;
+}
+
+.action-button:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+    opacity: 0.9;
+}
+
+
+.buttonC {
+    background-color: #151830;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    color: white;
+    border: none;
+    width: 100%;
+    max-width: 200px;
+}
+
+.buttonC:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+    opacity: 0.9;
+}
+
+.buttonD{
+    background-color: #D31B63;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s;
+    color: white;
+    border: none;
+    width: 100%;
+    max-width: 200px;
+}
+
+.buttonD:hover {
+    background: linear-gradient(90deg, #D31B63, #DB80F5);
+    opacity: 0.9;
+}
+
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; 
+    text-align: center;
+    height: 100%; 
+    margin-left: auto; 
+    margin-right: auto; 
+    max-width: 300px; 
+}
+
+/* Modal de cambio de contraseña */
+
+#cambio_password .relative.p-4 {
+    width: 100%;
+    max-width: 600px; 
+}
+
+#cambio_password input,
+#cambio_password select {
+    border-color: #151830; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#cambio_password input:focus,
+#cambio_password select:focus {
+    border-color: #D491FE; 
+    box-shadow: 0 0 5px rgba(203, 119, 255, 0.5);
+}
+
+#cambio_password button[type="submit"] {
+    background-color: #151830;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#cambio_password button[type="submit"]:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+#cambio_password .cancelP {
+    background-color: #D31B63;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#cambio_password .cancelP:hover {
+    background: linear-gradient(90deg, #D31B63, #DB80F5);
+}
+
+/* Modal eliminar cuenta */
+#popup-modal button[type="submit"] {
+    background-color: #151830;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#popup-modal button[type="submit"]:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+#popup-modal .buttonC {
+    background-color: #D31B63;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#popup-modal .buttonC:hover {
+    background: linear-gradient(90deg, #D31B63, #DB80F5);
+}
