@@ -203,3 +203,24 @@ body{
 #cambio_password .cancelP:hover {
     background: linear-gradient(90deg, #D31B63, #DB80F5);
 }
+
+/* Modal eliminar cuenta */
+#popup-modal button[type="submit"] {
+    background-color: #151830;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#popup-modal button[type="submit"]:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+#popup-modal .buttonC {
+    background-color: #D31B63;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#popup-modal .buttonC:hover {
+    background: linear-gradient(90deg, #D31B63, #DB80F5);
+}
