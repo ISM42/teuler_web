@@ -11,7 +11,7 @@ class Registro_usuario extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,44 @@ class Registro_usuario extends FormRequest
      */
     public function rules(): array
     {
+        $rules = [
+            'name' => 'required|max:100',
+            'ap' => 'required|max:100',
+            'am' => 'required|max:100',
+            'aa' => 'required',
+            'rol' => 'required',
+            'email' => 'required|email|max:250',
+            'password1' => 'required|min:8',
+            'password_2' => 'required|min:8',
+            
+        ];
+       // $this->addConditionalRules($rules, 'matricula', 'grupo', 'escuela');
+        
+        return $rules;
+    }
+
+ /*    protected function addConditionalRules(&$rules, $matric, $grp, $escuela)
+    {
+        if ($this->filled($matric) || $this->filled($grp) || $this->filled($escuela)) {
+            $rules[$matric] = 'required';
+            $rules[$grp] = 'required';
+            $rules[$escuela] = 'required';
+           
+        }
+    } */
+
+    public function attributes(): array
+    {
         return [
-            //
+            'name' => 'Nombre',
+            'ap' => 'Apellido paterno',
+            'am' => 'Apellido materno',
+            'aa' => 'Área de adscripción',
+            'rol' => 'Rol',
+            'email' => 'Correo electrónico',
+            'password' => 'Contraseña',
+            'password_2' => 'Confirmar contraseña',
+            
         ];
     }
 }

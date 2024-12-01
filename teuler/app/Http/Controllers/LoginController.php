@@ -8,6 +8,8 @@ use App\Models\Usuarios;
 use App\Models\Rol;
 use App\Models\Area;
 
+//use App\Http\Requests\Registro_usuario;
+
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,11 +33,11 @@ class LoginController extends Controller
             if ($usuario->rol && $usuario->rol->nombre === 'Estudiante') {
                 return redirect('/cursos')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
             } elseif ($usuario->rol && $usuario->rol->nombre === 'Profesor') {
-                return redirect('/home')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
+                return redirect('/')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
             }
     
             // Si no tiene un rol específico, redirigir a una vista genérica
-            return redirect('/home')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
+            return redirect('/')->with('Confirmacion_login', "Registro exitoso, bienvenido " . $usuario->nombre);
         } else {
             return back()->with('Error_login', "Usuario o contraseña erróneos");
         }
@@ -86,7 +88,7 @@ class LoginController extends Controller
     $usuario->save();
 
         Auth::login($usuario);
-        return redirect('/home')->with('Confirmacion_registro', "Registro exitoso, bienvenido " . $usuario->nombre);
+        return redirect('/')->with('Confirmacion_registro', "Registro exitoso, bienvenido " . $usuario->nombre);
     }
 
 // Función para jalar los roles y áreas de los modelos.   
