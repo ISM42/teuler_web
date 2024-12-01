@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModuloTematicoController;
 use App\Http\Controllers\cursoProfeController;
+use App\Http\Controllers\InscripcionesController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -93,13 +94,18 @@ Route::get('/simplificacion_expresiones', function () {
     return view('cursos.algebra.expresiones.tema2_simplificacion');
 })->name('preguntas_simplificacion');
 
-Route::get('/mi_aprendizaje', function () {
-    return view('estudiante.mi_aprendizaje');
-});
 
+//RUTAS PROFESOR
 Route::get('/mis_cursos', [cursoProfeController::class, 'index'])->name('cursos');
 Route::post('/guardar_curso_profesor', [cursoProfeController::class, 'store']);
 Route::delete('/eliminar_curso_prof/{id}', [cursoProfeController::class, 'destroy'])->name('eliminar_cursoP');
+//FIN RUTAS PROFESO
+
+//RUTAS ESTUDIANTE
+Route::get('/mi_aprendizaje', [InscripcionesController::class, 'index'])->name('ins_curso');
+Route::post('/guardar_inscripcion', [InscripcionesController::class, 'store']);
+Route::delete('/eliminar_inscripcion/{id}', [InscripcionesController::class, 'destroy'])->name('eliminar_inscripcion');
+//FIN RUTAS ESTUDIANTE
 
 
 //rutas 2da version bloque de preguntas
