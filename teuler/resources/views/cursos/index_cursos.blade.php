@@ -2,6 +2,7 @@
 @section('titulo','Cursos')
 @section('contenido')
 
+<link rel="stylesheet" href="{{ asset('css/index_cursos.css') }}">
 <main class="flex-grow mb-10 pb-10 pt-10">
 <section class="bg-white py-20">
             <div class="container mx-auto px-4 text-center">
@@ -12,7 +13,8 @@
                 <ul>
 
 <li class="pb-8">
-<a href="/algebra" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Álgebra</a>
+<a href="/algebra" class="btn-curso bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Álgebra</a>
+<!-- <a href="/algebra" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Álgebra</a> -->
 </li>
 
 <li class="pb-8">
