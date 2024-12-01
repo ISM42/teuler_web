@@ -1,0 +1,156 @@
+body{
+    background: #F5F5F5;
+}
+
+main {
+    background: #F5F5F5;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin: 0 auto;
+    max-width: 1200px; 
+    padding: 20px;
+    gap: 20px; 
+    
+}
+
+.left-panel,
+.right-panel {
+    background: #F5F5F5 !important;
+    flex: 1; /* Ambos paneles ocuparán el mismo espacio */
+    min-width: 300px; 
+    padding: 20px;
+    box-sizing: border-box;
+    
+}
+
+.left-panel {
+    background: #F5F5F5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; 
+    box-sizing: border-box;
+}
+
+.left-panel h1{
+    text-align: center;
+}
+
+.card {
+    background-color: #ffffff; 
+    border-radius: 8px; 
+    padding: 20px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+    margin-bottom: 20px; 
+    width: 500px;
+    height: 370px;
+}
+
+.left-panel .buttonI {
+    background-color: #151830; 
+    color: #FFFFFF; 
+    padding: 12px 24px; 
+    border-radius: 8px; 
+    font-weight: bold; 
+    text-decoration: none; 
+    display: inline-block; 
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); 
+}
+
+.left-panel .buttonI:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE); /* Degradado horizontal */
+}
+
+.left-panel .flex {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+
+}
+
+.left-panel .buttonI, 
+.left-panel .buttonRegistro {
+    flex: 1;
+}
+
+.left-panel .buttonRegistro {
+    text-align: left;
+}
+
+.left-panel .buttonI {
+    margin-left: auto;
+}
+
+.left-panel input {
+    border: 2px solid #151830; /* Borde por defecto */
+    padding: 10px;
+    border-radius: 5px;
+    outline: none;
+}
+
+.left-panel input:focus {
+    border-color: #D491FE; /* Color del borde cuando el input está enfocado */
+    outline: none; /* Elimina el borde predeterminado del navegador */
+}
+
+
+.right-panel {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 70vh; 
+    padding: 20px;
+    box-sizing: border-box;
+
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        flex-direction: column; /* Pone los paneles en una columna en pantallas pequeñas */
+        padding: 10px;
+    }
+
+    .left-panel,
+    .right-panel {
+        min-width: 100%; /* Los paneles ocupan todo el ancho en pantallas pequeñas */
+        margin-bottom: 20px;
+    }
+
+    .left-panel .card {
+        width: 90%; /* Tarjeta más pequeña en pantallas pequeñas */
+        margin: 0 auto;
+    }
+
+    .left-panel .buttonI {
+        width: 100%; /* El botón ocupa todo el ancho en pantallas pequeñas */
+    }
+
+    .right-panel h1 {
+        font-size: 2rem; /* Hace que el texto sea más pequeño en pantallas pequeñas */
+    }
+
+    .right-panel img {
+        width: 200px; /* Redimensiona la imagen en pantallas pequeñas */
+        height: auto;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .right-panel h1 {
+        font-size: 1.5rem; /* Texto aún más pequeño para pantallas muy pequeñas */
+    }
+
+    .right-panel img {
+        width: 150px; /* Imagen aún más pequeña en pantallas muy pequeñas */
+    }
+
+    .left-panel input {
+        padding: 8px; /* Reduce el padding de los inputs */
+    }
+
+    .left-panel .card {
+        width: 100%; /* La tarjeta ocupa todo el ancho disponible */
+    }
+}
