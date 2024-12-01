@@ -154,3 +154,42 @@ main {
         width: 100%; /* La tarjeta ocupa todo el ancho disponible */
     }
 }
+
+
+/* Estilos para modal de registro */
+#registro_usuario .relative.p-4 {
+    width: 100%;
+    max-width: 600px; 
+}
+
+#registro_usuario input,
+#registro_usuario select {
+    border-color: #151830; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#registro_usuario input:focus,
+#registro_usuario select:focus {
+    border-color: #D491FE; 
+    box-shadow: 0 0 5px rgba(203, 119, 255, 0.5);
+}
+
+#registro_usuario button[type="submit"] {
+    background-color: #151830;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#registro_usuario button[type="submit"]:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+
+#registro_usuario .password-input + span {
+    color: #151830; 
+    transition: color 0.3s ease;
+}
+
+#registro_usuario .password-input:focus + span {
+    color: #D491FE; 
+}
