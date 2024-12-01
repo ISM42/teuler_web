@@ -4,8 +4,6 @@
 
 <link rel="stylesheet" href="{{ asset('css/index_teuler.css') }}">
 
-
-
 <main>
     <div class="left-panel">
         <div class="card">
