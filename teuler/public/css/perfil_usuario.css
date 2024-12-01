@@ -164,3 +164,42 @@ body{
     margin-right: auto; 
     max-width: 300px; 
 }
+
+/* Modal de cambio de contraseña */
+
+#cambio_password .relative.p-4 {
+    width: 100%;
+    max-width: 600px; 
+}
+
+#cambio_password input,
+#cambio_password select {
+    border-color: #151830; 
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+#cambio_password input:focus,
+#cambio_password select:focus {
+    border-color: #D491FE; 
+    box-shadow: 0 0 5px rgba(203, 119, 255, 0.5);
+}
+
+#cambio_password button[type="submit"] {
+    background-color: #151830;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#cambio_password button[type="submit"]:hover {
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+#cambio_password .cancelP {
+    background-color: #D31B63;
+    border: none;
+    transition: background-color 0.3s ease;
+}
+
+#cambio_password .cancelP:hover {
+    background: linear-gradient(90deg, #D31B63, #DB80F5);
+}

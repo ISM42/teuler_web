@@ -113,7 +113,7 @@
             @if ($errors->has('password_actual'))
                 <div class="text-red-500 text-sm">{{ $errors->first('password_actual') }}</div>
             @endif
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('password_actual')">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('password_actual')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
         </div>
@@ -123,7 +123,7 @@
             <label for="new_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nueva contraseña</label>
         <div class="relative">
             <input type="password" name="new_password" id="new_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('new_password')">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('new_password')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
         </div>
@@ -136,14 +136,14 @@
             @if ($errors->has('new_password'))
                 <div class="text-red-500 text-sm">{{ $errors->first('new_password') }}</div>
             @endif
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('new_password_confirmation')">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('new_password_confirmation')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
 </div>
         </div>
 
         <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Aceptar</button>
-        <button type="button" data-modal-hide="cambio_password" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cancelar</button>
+        <button type="button" data-modal-hide="cambio_password" class="cancelP w-full text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cancelar</button>
     </form>
 </div>
 
