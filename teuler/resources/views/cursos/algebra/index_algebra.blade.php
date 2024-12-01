@@ -2,6 +2,7 @@
 @section('titulo','Curso: Álgebra')
 @section('contenido')
 
+<link rel="stylesheet" href="{{ asset('css/index_algebra.css') }}">
 <main class="flex-grow mb-10 pb-10 pt-10">
     <section class="bg-white py-20">
         <div class="container mx-auto px-4 text-center">
@@ -11,28 +12,27 @@
             <ul>
 
             <li class="pb-8">
-            <a href="/expresiones" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Expresiones algebraicas</a>
+                <a href="/expresiones" class="tema-boton">Expresiones algebraicas</a>
             </li>
 
             <li class="pb-8">
-            <a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Productos notables</a>
-            </li>
-
-
-            <li class="pb-8">
-            <a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Factorización</a>
+                <a href="#" class="tema-boton">Productos notables</a>
             </li>
 
             <li class="pb-8">
-            <a href="/despejes" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Despejes y ecuaciones lineales </a>
+                <a href="#" class="tema-boton">Factorización</a>
             </li>
 
             <li class="pb-8">
-            <a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Desigualdades</a>
+                <a href="/despejes" class="tema-boton">Despejes y ecuaciones lineales</a>
             </li>
 
             <li class="pb-8">
-            <a href="#" class="bg-blue-700 text-white py-3 px-6 rounded-lg shadow hover:bg-blue-900 transition duration-300">Ecuaciones cuadráticas y sistemas de ecuaciones</a>
+                <a href="#" class="tema-boton">Desigualdades</a>
+            </li>
+
+            <li class="pb-8">
+                <a href="#" class="tema-boton">Ecuaciones cuadráticas y sistemas de ecuaciones</a>
             </li>
 
            
