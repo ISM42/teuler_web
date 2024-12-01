@@ -105,6 +105,10 @@ Route::delete('/eliminar_curso_prof/{id}', [cursoProfeController::class, 'destro
 Route::get('/mi_aprendizaje', [InscripcionesController::class, 'index'])->name('ins_curso');
 Route::post('/guardar_inscripcion', [InscripcionesController::class, 'store']);
 Route::delete('/eliminar_inscripcion/{id}', [InscripcionesController::class, 'destroy'])->name('eliminar_inscripcion');
+
+Route::get('/mi_progreso', [InscripcionesController::class, 'progresoEstudiante'])->name('progreso_estudiante');
+
+
 //FIN RUTAS ESTUDIANTE
 
 
