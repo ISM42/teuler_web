@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ModuloTematicoController;
+use App\Http\Controllers\cursoProfeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -96,10 +97,7 @@ Route::get('/mi_aprendizaje', function () {
     return view('estudiante.mi_aprendizaje');
 });
 
-Route::get('/mis_cursos', function () {
-    return view('profesor.mis_cursos');
-});
-
+Route::get('/mis_cursos', [cursoProfeController::class, 'index'])->name('cursos');
 //rutas 2da version bloque de preguntas
 Route::post('/guardar-respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
 Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias'])->name('preguntas');
