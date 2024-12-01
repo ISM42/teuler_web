@@ -24,7 +24,7 @@ class InscripcionesController extends Controller
     $usuarioId = Auth::id();
     $usuario = Usuarios::where('id', $usuarioId)->first();
     $registroCursos = inscripciones::with('insCursos')->where('id_usuario', $usuarioId)->where('estatus', '!=', 0)->get();
-    
+    //dd($registroCursos);
     $cursosRegistradosIds = $registroCursos->pluck('id_curso_prof')->toArray();
     
     
@@ -43,8 +43,8 @@ class InscripcionesController extends Controller
             ->where('inscripciones.id_usuario',$usuarioId)
             ->get();
     
-    $cursos = cursoProfesor::with('cursos')->with('profesor')->whereNotIn('id', $cursosRegistradosIds)->get();
-    //dd($cursos_inscritos);
+    $cursos = cursoProfesor::with('cursos')->with('profesor')->whereNotIn('id', $cursosRegistradosIds)->where('estatus', '!=', 0)->get();
+    //dd($cursos);
     
     return view('estudiante.mi_aprendizaje', compact('usuario', 'cursos', 'cursos_inscritos'));
     }

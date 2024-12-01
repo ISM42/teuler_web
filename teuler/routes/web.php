@@ -99,7 +99,9 @@ Route::get('/simplificacion_expresiones', function () {
 Route::get('/mis_cursos', [cursoProfeController::class, 'index'])->name('cursos');
 Route::post('/guardar_curso_profesor', [cursoProfeController::class, 'store']);
 Route::delete('/eliminar_curso_prof/{id}', [cursoProfeController::class, 'destroy'])->name('eliminar_cursoP');
-//FIN RUTAS PROFESO
+
+Route::get('/progreso_alumnos', [cursoProfeController::class, 'progresoAlumnos'])->name('progreso_alumnos');
+//FIN RUTAS PROFESOR
 
 //RUTAS ESTUDIANTE
 Route::get('/mi_aprendizaje', [InscripcionesController::class, 'index'])->name('ins_curso');
