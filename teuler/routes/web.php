@@ -92,6 +92,10 @@ Route::get('/simplificacion_expresiones', function () {
     return view('cursos.algebra.expresiones.tema2_simplificacion');
 })->name('preguntas_simplificacion');
 
+Route::get('/mi_aprendizaje', function () {
+    return view('estudiante.mi_aprendizaje');
+});
+
 /* Route::get('/perfil', function () {
     return view('perfil_usuario');
 }); */
@@ -101,6 +105,29 @@ Route::get('/simplificacion_expresiones', function () {
 //rutas 2da version bloque de preguntas
 Route::post('/guardar-respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
 Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias'])->name('preguntas');
+//fin 2da version bloque de preguntas
+
+
+
+
+//FIN RUTAS TEMPORALES
+
+
+// RUTAS BREEZE
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', ''])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+// FIN RUTAS BREEZE
+
+
+
+
 
 //ruta para prueba directa de conexión con mongo
 Route::get('/test-mongodb', function () {
@@ -118,18 +145,4 @@ Route::get('/test-mongodb', function () {
 //fin ruta test-mongo
 
 
-//FIN RUTAS TEMPORALES
-
-
-// RUTAS BREEZE
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', ''])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-// FIN RUTAS BREEZE
 require __DIR__.'/auth.php';
