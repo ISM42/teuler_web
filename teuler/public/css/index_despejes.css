@@ -1,0 +1,53 @@
+body{
+    background-color: #F5F5F5;
+}
+
+.intro{
+    background-color: #F5F5F5;
+}
+
+
+
+h2 {
+    color: #DB80F5 !important;
+}
+
+
+.leccion-boton {
+    background-color: #DB80F5; /* Color sólido */
+}
+
+.leccion-boton:hover {
+    background: linear-gradient(135deg, #A5B9FE, #D491FE); /* Azul y rojo */
+}
+
+
+/* Responsividad */
+/* Patantallas mas pequeñas */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+  
+    ul {
+        grid-template-columns: repeat(2, 1fr); /* 2 columnas en pantallas más pequeñas */
+    }
+  
+    .tema-boton {
+        font-size: 16px;
+        padding: 20px 30px; /* Ajustar el tamaño de los botones */
+    }
+  }
+  
+  /* teléfonos */
+  @media (max-width: 480px) {
+    ul {
+        grid-template-columns: 1fr; /* Una columna en dispositivos muy pequeños */
+    }
+  
+    .tema-boton {
+        font-size: 14px;
+        padding: 15px 20px; /* Ajustar más el tamaño de los botones */
+    }
+  }
