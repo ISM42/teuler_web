@@ -96,11 +96,9 @@ Route::get('/mi_aprendizaje', function () {
     return view('estudiante.mi_aprendizaje');
 });
 
-/* Route::get('/perfil', function () {
-    return view('perfil_usuario');
-}); */
-//Ruta para obtener 10 preguntas aleatorias desde mongo (1er version)
-//Route::get('/modulo/{id}/preguntas', [ModuloTematicoController::class, 'obtenerPreguntasAleatorias']);
+Route::get('/mis_cursos', function () {
+    return view('profesor.mis_cursos');
+});
 
 //rutas 2da version bloque de preguntas
 Route::post('/guardar-respuesta', [ModuloTematicoController::class, 'guardarRespuesta'])->name('guardar_respuesta');
