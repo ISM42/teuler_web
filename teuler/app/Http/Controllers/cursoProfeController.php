@@ -20,15 +20,15 @@ class cursoProfeController extends Controller
 {
     public function index()
 {
-    $usuarioId = Auth::id();
-    $usuario = Usuarios::where('id', $usuarioId)->first();
-    $registroCursos = cursoProfesor::with('cursos')->where('id_profesor', $usuarioId)->get();
+$usuarioId = Auth::id();
+$usuario = Usuarios::where('id', $usuarioId)->first();
+$registroCursos = cursoProfesor::with('cursos')->where('id_profesor', $usuarioId)->where('estatus', '!=', 0)->get();
 
-    $cursosRegistradosIds = $registroCursos->pluck('cursos.id')->toArray();
+$cursosRegistradosIds = $registroCursos->pluck('cursos.id')->toArray();
 
-    $cursos = Curso::whereNotIn('id', $cursosRegistradosIds)->get();
+$cursos = Curso::whereNotIn('id', $cursosRegistradosIds)->get();
 
-    return view('profesor.mis_cursos', compact('usuario', 'cursos', 'registroCursos'));
+return view('profesor.mis_cursos', compact('usuario', 'cursos', 'registroCursos'));
 }
 
 public function store(Request $request)
@@ -47,4 +47,19 @@ public function store(Request $request)
    
 
 }
+
+
+//borrado lógico del curso
+public function destroy($id)
+    {
+        
+            $borrarCurso = cursoProfesor::findOrFail($id);
+            $borrarCurso->estatus = 0;
+            $borrarCurso->updated_at = Carbon::now()->toDateString();
+            $borrarCurso->save();
+
+            return redirect()->back();
+        
+    }
+
 }

@@ -48,9 +48,13 @@
       @foreach($registroCursos as $regCurso)
         <tr class="hover:bg-gray-50">
           <td class="px-4 py-2 border-b">{{$regCurso->cursos->nombre}}</td>
+          <form action="{{route('eliminar_cursoP', $regCurso->id)}}" method="POST">
           <td class="px-4 py-2 border-b text-center">
             <button class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-all">Ver</button>
-            <button class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-all ml-2">Eliminar</button>
+                 @csrf
+                @method('DELETE')
+            <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-all ml-2">Eliminar</button>
+            </form>
           </td>
         </tr>
         @endforeach
