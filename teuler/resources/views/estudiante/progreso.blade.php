@@ -3,7 +3,7 @@
 @section('contenido')
 
 <!-- Inicio tabla -->
-<div class="container mx-auto mt-8 flex justify-center">
+<div class="container mx-auto mt-8 flex justify-center" style="height: 65vh;">
   <div class="bg-white shadow-md rounded-lg p-6">
     <h2 class="text-2xl font-bold mb-4">Cursos</h2>
     <table class="min-w-full border-collapse border border-gray-300 rounded-lg overflow-hidden">

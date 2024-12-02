@@ -3,7 +3,7 @@
 @section('contenido')
 
 <!-- Inicio tabla -->
-<div class="container mx-auto mt-8 p-4">
+<div class="container mx-auto mt-8 p-4" style="height: 65vh;">
   <div class="bg-white shadow-md rounded-lg p-6">
     <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">Cursos</h2>
     @php
