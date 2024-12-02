@@ -48,7 +48,7 @@
                 </div>
             @else
                 <!-- Usuario no autenticado -->
-                <a href="{{ route('login') }}" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-500">Iniciar sesión</a>
+                <a href="{{ route('login') }}" class="px-4 py-2 text-white rounded" style="background: linear-gradient(90deg, #D491FE, #A5B9FE); ">Iniciar sesión</a>
             @endif
         </div>
 
