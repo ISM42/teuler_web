@@ -1,0 +1,49 @@
+body{
+    background: #F5F5F5
+}
+
+.container{
+    height: 70vh;
+}
+.entrada-respuesta input {
+    border: 2px solid #151830; /* Agregar un borde explícito */
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    outline: none; /* Remueve el borde por defecto del navegador */
+}
+
+.entrada-respuesta input:focus {
+    border-color: #D491FE; 
+    box-shadow: 0 0 5px rgba(203, 119, 255, 0.5); /* Aplicar sombra en el foco */
+}
+
+.entrada-respuesta .boton-enviar{
+    background-color: #151830;
+}
+
+.entrada-respuesta .boton-enviar:hover{
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+.verdadero-falso .buttonV{
+    background-color: #80c8ff;
+}
+
+.verdadero-falso .buttonV:hover{
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}
+
+.verdadero-falso .buttonF{
+    background-color: #D31B63;
+}
+
+.verdadero-falso .buttonF:hover{
+    background: linear-gradient(90deg, #D31B63, #DB80F5);
+}
+
+.opciones-multiples .buttonO{
+    background-color: #151830;
+}
+
+.opciones-multiples .buttonO:hover{
+    background: linear-gradient(90deg, #D491FE, #A5B9FE);
+}

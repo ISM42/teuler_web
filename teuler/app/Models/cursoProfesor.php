@@ -13,4 +13,17 @@ class cursoProfesor extends Model
 
     // Campos asignables
     protected $fillable = ['id_profesor', 'id_curso'];
+
+    public function cursos(){
+        return $this->belongsTo(Curso::class,'id_curso');
+    }
+
+    public function profesor(){
+        return $this->belongsTo(Usuarios::class,'id_profesor');
+    }
+
+    public function inscripciones()
+{
+    return $this->hasMany(inscripciones::class, 'id_curso_prof');
+}
 }
