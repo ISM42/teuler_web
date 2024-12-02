@@ -1,0 +1,54 @@
+body{
+    background-color: #F5F5F5;
+}
+
+.ec1{
+    text-align: center; /* Centra el texto horizontalmente */
+    white-space: pre-wrap; /* Permite que el texto envuelto respete el formato de <pre> */
+    background-color: #FFFFFF;
+    padding: 10px;
+    border-radius: 5px;
+    margin: 0 auto; /* Centra horizontalmente el bloque */
+    width: 30%; /* Opcional: controla el ancho */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.ec{
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+}
+
+.ejemplo{
+    color: #DB80F5;
+}
+
+ol {
+    display: grid; /* Hace que los elementos sean flexibles */
+    grid-template-columns: repeat(2, 1fr); /* Coloca los elementos uno debajo del otro */
+    gap: 20px; /* Espaciado entre elementos */
+    padding: 0; /* Remueve padding por defecto del ol */
+    list-style: none; /* Remueve los bullets de la lista */
+}
+
+.pasos {
+    background-color: #f9f9f9; /* Fondo para destacar los elementos */
+    padding: 20px; /* Espaciado interno */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombras suaves */
+    width: 30%; /* Ocupa todo el ancho disponible */
+    margin: 0 auto;
+}
+
+p, pre {
+    margin: 0; /* Remueve márgenes por defecto */
+}
+
+
+.ejercicio-boton {
+    background-color: #DB80F5; /* Color sólido */
+    margin-bottom: 20px;
+}
+
+.ejercicio-boton:hover {
+    background: linear-gradient(135deg, #A5B9FE, #D491FE); 
+}
