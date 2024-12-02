@@ -2,115 +2,83 @@
 @section('titulo','Perfil de Usuario')
 @section('contenido')
 
-<h1 class="text-gray-900 font-bold font-sans text-3xl mt-5 mb-5 flex justify-center">{{$usuario->nombre}} {{$usuario -> apellido_p}}  {{$usuario -> apellido_m}}</h1>
+
+<link rel="stylesheet" href="{{ asset('css/perfil_usuario.css') }}">
+<div class="profile-container grid grid-cols-3 gap-6 p-6 bg-white shadow-lg rounded-lg max-w-6xl mx-auto">
+
+    <div class="avatar-container flex flex-col items-center col-span-1">
+        <img src="{{ $usuario->avatar ? asset('storage/' . $usuario->avatar) : asset('images/Avatar_predeterminado.png') }}" 
+             alt="Avatar" class="avatar w-40 h-40 rounded-full object-cover mb-4">
+        <h1 class="text-gray-900 font-bold text-xl text-center">{{$usuario->nombre}} {{$usuario->apellido_p}} {{$usuario->apellido_m}}</h1>
+        <div class="mt-4 space-y-2">
+            <form action="{{ route('usuarios.upload-avatar') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <input type="file" name="avatar" id="avatar-upload" class="hidden" onchange="this.form.submit()">
+                <button type="button" onclick="document.getElementById('avatar-upload').click()" class="avatar-button">
+                    Seleccionar nuevo avatar
+                </button>
+            </form>
+            <form action="{{ route('usuarios.delete-avatar') }}" method="POST">
+                @csrf
+                <button type="submit" class="avatar-button bg-red-500 hover:bg-red-600">
+                    Eliminar Avatar
+                </button>
+            </form>
+        </div>
+    </div>
 
 
+    <div class="card-info col-span-1">
+        <form action="{{ route('usuarios.update', $usuario->id) }}" method="POST" enctype="multipart/form-data">
+            @csrf
+            @method('PUT')
+            <div class="space-y-4">
+                <div>
+                    <label for="nombre" class="label">Nombre</label>
+                    <input type="text" name="nombre" value="{{ $usuario->nombre }}" id="nombre" class="input" />
+                </div>
+                <div>
+                    <label for="apellido_p" class="label">Apellido Paterno</label>
+                    <input type="text" name="apellido_p" value="{{ $usuario->apellido_p }}" id="apellido_p" class="input" />
+                </div>
+                <div>
+                    <label for="apellido_m" class="label">Apellido Materno</label>
+                    <input type="text" name="apellido_m" value="{{ $usuario->apellido_m }}" id="apellido_m" class="input" />
+                </div>
+                <div>
+                    <label for="id_area" class="label">Área de Adscripción</label>
+                    <select name="id_area" id="id_area" class="input">
+                        <option value="" disabled>Seleccione un área de adscripción</option>
+                        @foreach($areas as $area)
+                            <option value="{{ $area->id }}" {{ $usuario->id_area == $area->id ? 'selected' : '' }}>{{ $area->nombre }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div>
+                    <label for="email" class="label">Email</label>
+                    <input type="email" name="email" value="{{ $usuario->email }}" id="email" class="input" />
+                </div>
+            </div>
+            <!-- Botón de actualizar perfil (dentro del formulario) -->
+            <div class="mt-6 text-center">
+                <button type="submit" class="action-button bg-green-500 hover:bg-green-600">
+                    Actualizar Perfil
+                </button>
+            </div>
+        </form>
+    </div>
 
-<!-- Disparador del modal para cambiar contraseña -->
-<div class="container mb-5 pb-10 flex justify-end pr-5">
-<button data-modal-target="cambio_password" data-modal-toggle="cambio_password" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-  Cambiar contraseña
-</button>
-</div>
-<!-- Fin disparador para cambiar contraseña -->
-
-
-<!-- Disparador del modal para eliminar cuenta de usuario -->
-<div class="container mb-5 pb-10 flex justify-end pr-5">
-<button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
-Eliminar mi cuenta
-</button>
-</div>
-<!-- Fin del disparador para eliminar cuenta de usuario -->
-
-<!-- Inicio mostrar avatar -->
-<div class="container flex justify-center items-center min-h-screen mb-10 mt-10 pb-36">
-<!-- Mostrar el avatar del usuario, si existe; de lo contrario, usar el avatar predeterminado -->
-   <img src="{{ $usuario->avatar ? asset('storage/' . $usuario->avatar) : asset('images/Avatar_predeterminado.png') }}" alt="" width="250" height="250" >       
-</div>
-<!-- Fin avatar -->
-
-
-
-<!-- INICIO BOTONES PARA AVATAR -->
-
-<div class="flex justify-center space-x-4 mb-6">
-    <!-- Botón para subir un nuevo avatar -->
-    <form action="{{ route('usuarios.upload-avatar') }}" method="POST" enctype="multipart/form-data" class="inline">
-        @csrf
-        <label for="avatar-upload" class="block text-sm font-medium text-gray-700">Seleccionar nuevo avatar:</label>
-        <input type="file" name="avatar" id="avatar-upload" class="hidden" onchange="this.form.submit()">
-        <button type="button" onclick="document.getElementById('avatar-upload').click()" class="px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none">
-            Examinar
+    <div class="button-container flex flex-col space-y-4 items-center col-span-1">
+        <button data-modal-target="cambio_password" data-modal-toggle="cambio_password" class="buttonC">
+            Cambiar contraseña
         </button>
-    </form>
-
-    <!-- Botón para eliminar el avatar actual -->
-    <form action="{{ route('usuarios.delete-avatar') }}" method="POST" class="inline">
-        @csrf
-        <button type="submit" class="px-4 py-2 bg-red-500 text-white font-bold rounded-lg hover:bg-red-600 focus:outline-none">
-            Eliminar Avatar
+        <button data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="buttonD">
+            Eliminar mi cuenta
         </button>
-    </form>
+    </div>
 </div>
-<!-- FIN BOTONES AVATAR -->
 
-<!-- FORMULARIO PARA ACTUALIZAR DATOS DEL USUARIO -->
-<div class="container mb-10 pb-10">
-    <form class="space-y-4" action="{{ route('usuarios.update', $usuario->id) }}" method="POST" enctype="multipart/form-data">
-        @csrf
-        @method('PUT')
-        
-        <div>
-            <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nombre</label>
-            <input type="text" name="nombre" value="{{ $usuario->nombre }}" id="nombre" required 
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-        </div>
-
-        <div>
-            <label for="apellido_p" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido Paterno</label>
-            <input type="text" name="apellido_p" value="{{ $usuario->apellido_p }}" id="apellido_p" required 
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-        </div>
-
-        <div>
-            <label for="apellido_m" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Apellido Materno</label>
-            <input type="text" name="apellido_m" value="{{ $usuario->apellido_m }}" id="apellido_m" required 
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-        </div>
-
-        <div>
-            <label for="id_area" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Área de Adscripción</label>
-            <select name="id_area" id="id_area" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="" disabled>Seleccione un área de adscripción</option>
-                @foreach($areas as $area)
-                    <option value="{{ $area->id }}" {{ $usuario->id_area == $area->id ? 'selected' : '' }}>{{ $area->nombre }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <!-- <div>
-            <label for="id_rol" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Rol</label>
-            <select name="id_rol" id="id_rol" required class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
-                <option value="" disabled>Seleccione un rol</option>
-                @foreach($roles as $rol)
-                    <option value="{{ $rol->id }}" {{ $usuario->id_rol == $rol->id ? 'selected' : '' }}>{{ $rol->nombre }}</option>
-                @endforeach
-            </select>
-        </div> -->
-
-        <div>
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-            <input type="email" name="email" value="{{ $usuario->email }}" id="email" required 
-                   class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" />
-        </div>
-
-        <div class="flex justify-end mt-4">
-            <button type="submit" class="px-4 py-2 bg-blue-500 text-white font-bold rounded-lg hover:bg-blue-600 focus:outline-none">Actualizar Perfil</button>
-        </div>
-    </form>
-</div>
-<!-- FIN DE FORMULARIO PARA ACTUALIZAR DATOS DEL USUARIO -->
+    <!-- FIN DE FORMULARIO PARA ACTUALIZAR DATOS DEL USUARIO -->
 
 
 <!-- MODAL PARA CAMBIO DE CONTRASEÑA -->
@@ -145,7 +113,7 @@ Eliminar mi cuenta
             @if ($errors->has('password_actual'))
                 <div class="text-red-500 text-sm">{{ $errors->first('password_actual') }}</div>
             @endif
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('password_actual')">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('password_actual')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
         </div>
@@ -155,7 +123,7 @@ Eliminar mi cuenta
             <label for="new_password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nueva contraseña</label>
         <div class="relative">
             <input type="password" name="new_password" id="new_password" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('new_password')">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('new_password')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
         </div>
@@ -168,14 +136,14 @@ Eliminar mi cuenta
             @if ($errors->has('new_password'))
                 <div class="text-red-500 text-sm">{{ $errors->first('new_password') }}</div>
             @endif
-            <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('new_password_confirmation')">
+            <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('new_password_confirmation')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
 </div>
         </div>
 
         <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Aceptar</button>
-        <button type="button" data-modal-hide="cambio_password" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cancelar</button>
+        <button type="button" data-modal-hide="cambio_password" class="cancelP w-full text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Cancelar</button>
     </form>
 </div>
 
@@ -201,6 +169,7 @@ Eliminar mi cuenta
                 <svg class="mx-auto mb-4 text-gray-400 w-12 h-12 dark:text-gray-200" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                 </svg>
+                <h1 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">¡Espera!</h1>
                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">¿Estás seguro que deseas eliminar tu cuenta? Esta acción no se podrá deshacer</h3>
 
                 <form action="{{ route('usuario.eliminar.cuenta') }}" method="POST">
@@ -208,7 +177,7 @@ Eliminar mi cuenta
                     <button type="submit" data-modal-hide="popup-modal" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                         Sí, continuar
                     </button>
-                    <button type="button" data-modal-hide="popup-modal" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    <button type="button" data-modal-hide="popup-modal" class="buttonC py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-white-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
                         No, cancelar
                     </button>
                 </form>

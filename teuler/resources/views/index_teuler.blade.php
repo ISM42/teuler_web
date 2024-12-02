@@ -2,40 +2,47 @@
 @section('titulo','Inicio')
 @section('contenido')
 
-<h1 class="text-gray-900 font-bold font-sans text-3xl mt-5 mb-5 flex justify-center"> TEULER </h1>
+<link rel="stylesheet" href="{{ asset('css/index_teuler.css') }}">
 
-<div class="container flex justify-center items-center min-h-screen mb-10 mt-10 pb-36 ">
-    <img src="{{ asset('images/logo_teuler.png') }}" alt="" width="250" height="250">
-  
-</div>
+<main>
+    <div class="left-panel">
+        <div class="card">
+            <h1 class="text-4xl font-bold text-gray-800 mb-6">Inicio Sesión</h1>
+            <div class="container mb-10 pb-10">
+                <form class="max-w-sm mx-auto" action="/login" method= "POST">
+                    @csrf
+                    <div class="mb-5">
+                        <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
+                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
+                        <p class="text-red-600 font-sans font-bold mt-1">{{ $errors->first('email') }}</p>  
+                    </div>
+                    <div class="mb-5">
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
+                        <input type="password" id="contraseña" name="contraseña" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
+                        <p class="text-red-600 font-sans font-bold mt-1">{{ $errors->first('password') }}</p>  
+                    </div>
+                    <div class="flex items-start mb-5">
 
+                    <!--  <a href="/home" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">¿Eres nuevo? Regístrate</a> -->
 
-<div class="container mb-10 pb-10">
-<form class="max-w-sm mx-auto" action="/login" method= "POST">
-    @csrf
-  <div class="mb-5">
-    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Email</label>
-    <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" />
-    <p class="text-red-600 font-sans font-bold mt-1">{{ $errors->first('email') }}</p>  
-</div>
-  <div class="mb-5">
-    <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
-    <input type="password" id="contraseña" name="contraseña" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"/>
-    <p class="text-red-600 font-sans font-bold mt-1">{{ $errors->first('password') }}</p>  
-</div>
-  <div class="flex items-start mb-5">
-
-   <!--  <a href="/home" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">¿Eres nuevo? Regístrate</a> -->
-
-   <!-- Modal toggle -->
-<button data-modal-target="registro_usuario" data-modal-toggle="registro_usuario" class="ms-2 text-sm underline font-medium text-gray-900 dark:text-gray-300" type="button">
-¿Eres nuevo? Regístrate
-</button>
-  </div>
-  <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ingresar</button>
-</form>
-<div>
-
+                    <!-- Modal toggle -->
+                    <button data-modal-target="registro_usuario" data-modal-toggle="registro_usuario" class="buttonRegistro ms-2 text-sm underline font-medium text-gray-900 dark:text-gray-300" type="button">
+                    ¿Eres nuevo? Regístrate
+                    </button>
+                    <button type="submit" class="buttonI text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Ingresar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+        
+        <div class="right-panel">
+            <div class="container flex flex-col justify-center items-center min-h-screen mb-10 mt-10 pb-36">
+                <h1 class="text-gray-900 font-bold font-sans text-3xl mt-5 mb-5 flex justify-center"> TEULER </h1>
+                <img src="{{ asset('images/logo_teuler.png') }}" alt="" width="250" height="250">
+            </div>
+        </div>
 
 
 <!-- Main modal REGISTRO-->
@@ -45,7 +52,7 @@
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <!-- Modal header -->
             <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600">
-                <h3 class="text-xl font-semibold text-gray-900 dark:text-white">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white">
                     Crea una cuenta
                 </h3>
                 <button type="button" class="end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="registro_usuario">
@@ -110,7 +117,7 @@
     <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Contraseña</label>
     <div class="relative">
         <input type="password" name="password" id="password" class="password-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
-        <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('password')">
+        <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('password')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
     </div>
@@ -120,7 +127,7 @@
     <label for="password_2" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Confirmar contraseña</label>
     <div class="relative">
         <input type="password" name="password_2" id="password_2" class="password-input bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" />
-        <span class="absolute inset-y-0 right-0 flex items-center pr-3 cursor-pointer" onclick="togglePassword('password_2')">
+        <span class="absolute inset-y-0 right-0 flex items-center pr-4 cursor-pointer" onclick="togglePassword('password_2')">
         <ion-icon name="eye-off-outline"></ion-icon>
         </span>
     </div>
@@ -142,7 +149,7 @@
                         </div>
                         <a href="#" class="text-sm text-blue-700 hover:underline dark:text-blue-500"></a>
                     </div>
-                    <button type="submit" class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Crear cuenta</button>
+                    <button type="submit" class="w-full text-white font-medium rounded-lg text-sm px-5 py-2.5">Crear cuenta</button>
                     <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
                          
                     </div>
