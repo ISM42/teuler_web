@@ -8,14 +8,15 @@ body{
     background-color: #FFFFFF;
     padding: 10px;
     border-radius: 5px;
+    margin-top: 10px !important;
     margin: 0 auto; /* Centra horizontalmente el bloque */
     width: 30%; /* Opcional: controla el ancho */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
 }
 
 .ec{
-    background-color: #FFFFFF;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra más pronunciada */
+    background-color: #F5F5F5;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
 }
 
 .ejemplo{
@@ -31,11 +32,12 @@ ol {
 }
 
 .pasos {
-    background-color: #f9f9f9; /* Fondo para destacar los elementos */
+    background-color: #ffffff; /* Fondo para destacar los elementos */
     padding: 20px; /* Espaciado interno */
     border-radius: 8px; /* Bordes redondeados */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombras suaves */
-    width: 30%; /* Ocupa todo el ancho disponible */
+    width: 100%; /* Ocupa todo el ancho disponible */
+    margin-bottom: 20px !important;
     margin: 0 auto;
 }
 
@@ -56,25 +58,22 @@ p, pre {
 
 /* Responsividad */
 @media (max-width: 768px) {
-    /* Lista */
-    ol {
-        grid-template-columns: 1fr; /* Cambia a una sola columna */
-    }
-
-    /* `.ec1` */
     .ec1 {
-        width: 90%; /* Ocupa casi todo el ancho */
+        width: 90%;
         padding: 15px;
     }
 
-    /* `.pasos` */
-    .pasos {
-        width: 90%;
+    ol {
+        grid-template-columns: 1fr; /* Una sola columna */
     }
 
-    /* Botones */
+    .pasos {
+        width: 90%;
+        padding: 15px;
+    }
+
     .ejercicio-boton {
-        font-size: 14px; /* Fuente más pequeña */
-        padding: 10px 15px; /* Reduce el espaciado */
+        font-size: 14px;
+        padding: 10px 15px;
     }
 }
