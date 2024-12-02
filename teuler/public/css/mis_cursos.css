@@ -13,6 +13,7 @@ h1{
     grid-template-columns: 1fr 1fr; 
     gap: 20px; 
     height: 65vh;
+
 }
 
 .buscador{      /* contenedor de seleccionador */
@@ -27,7 +28,7 @@ h1{
     width: 100%;
 }
 
-.tab-cursos{    /* contenedor de tabla de cursos */
+.tab-cursos{    /* contenedor de cursos */
     background-color: #ffffff;
     padding: 20px;
     text-align: center;

@@ -2,10 +2,12 @@
 @section('titulo','Mis cursos')
 @section('contenido')
 
+<link rel="stylesheet" href="{{ asset('css/mis_cursos.css') }}">
 <main class="flex-grow mb-10 pb-10 pt-10">
-<section class="bg-white py-20">
+<h1 class="text-4xl font-bold text-gray-800 mb-6">Mis cursos</h1>
+<div class="contenedor">
+<section class="buscador bg-white py-20">
             <div class="container mx-auto px-4 text-center">
-                <h1 class="text-4xl font-bold text-gray-800 mb-6">Mis cursos</h1>
                 <p class="text-lg text-gray-600 mb-8">
         
                 <!-- div para dropdown select cursos disponibles para el profesor -->
@@ -13,7 +15,7 @@
         <form action="/guardar_curso_profesor" method="POST">
             @csrf
     <label for="" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"> Cursos disponibles</label>
-    <select name="agregarCursoP" id="" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
+    <select name="agregarCursoP" id="sel" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white">
         <option value="" disabled selected>Seleccione un curso</option>
         @foreach($cursos as $curso)
         <option value="{{$curso -> id}}">{{$curso->nombre}}</option>
@@ -24,7 +26,7 @@
 
 <!-- div botón agregar -->
 <div class="flex justify-center pt-5">
-<button type='submit' class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-all">Agregar</button>
+<button type='submit' class="bt-agregar bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-all">Agregar</button>
 </div>
 <!-- fin botón agregar -->
 </form>
@@ -50,12 +52,13 @@
           <td class="px-4 py-2 border-b">{{$regCurso->cursos->nombre}}</td>
           <form action="{{route('eliminar_cursoP', $regCurso->id)}}" method="POST">
           <td class="px-4 py-2 border-b text-center">
-            <a href="/progreso_alumnos" class="bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-all">Ver</a>
+            <a href="/progreso_alumnos" class="bt-ver bg-blue-500 text-white px-3 py-1 rounded-md hover:bg-blue-600 transition-all">Ver</a>
                  @csrf
                 @method('DELETE')
-                <button data-modal-target="eliminar_curso{{$regCurso->id}}" data-modal-toggle="eliminar_curso{{$regCurso->id}}" class="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-all ml-2" type="button">
-Eliminar
-</button>
+                <button data-modal-target="eliminar_curso{{$regCurso->id}}" data-modal-toggle="eliminar_curso{{$regCurso->id}}" class="bt-eliminar bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-600 transition-all ml-2" type="button">
+                  Eliminar
+                </button>
+</div>
 
 <!-- modal eliminar -->
 <div id="eliminar_curso{{$regCurso->id}}" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
@@ -72,10 +75,10 @@ Eliminar
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11V6m0 8h.01M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                 </svg>
                 <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">¿Seguro que deseas continuar? Está acción no se podrá deshacer</h3>
-                <button data-modal-hide="eliminar_curso{{$regCurso->id}}" type="submit" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                <button data-modal-hide="eliminar_curso{{$regCurso->id}}" type="submit" class="bt-confir text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
                     Sí, continuar
                 </button>
-                <button data-modal-hide="eliminar_curso{{$regCurso->id}}" type="button" class="buttonC py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-white-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancelar</button>
+                <button data-modal-hide="eliminar_curso{{$regCurso->id}}" type="button" class="bt-cancel buttonC py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-white-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">No, cancelar</button>
             </div>
         </div>
     </div>
